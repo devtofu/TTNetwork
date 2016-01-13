@@ -1,0 +1,621 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8690058EFF9CDCAF00CBF7D9 /* libPods-TTNetworkDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 434D90008713CE094E65CF20 /* libPods-TTNetworkDemo.a */; };
+		CC6654001C46168F00E06A27 /* TTBaseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CC6653F61C46168F00E06A27 /* TTBaseRequest.m */; };
+		CC6654011C46168F00E06A27 /* TTNetworkConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = CC6653F91C46168F00E06A27 /* TTNetworkConfig.m */; };
+		CC6654021C46168F00E06A27 /* TTNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CC6653FB1C46168F00E06A27 /* TTNetworkManager.m */; };
+		CC6654031C46168F00E06A27 /* TTNetworkPrivate.m in Sources */ = {isa = PBXBuildFile; fileRef = CC6653FD1C46168F00E06A27 /* TTNetworkPrivate.m */; };
+		CC6654041C46168F00E06A27 /* TTNetworkResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = CC6653FF1C46168F00E06A27 /* TTNetworkResponse.m */; };
+		CC66540A1C46170E00E06A27 /* TTNetworkResponse+Format.m in Sources */ = {isa = PBXBuildFile; fileRef = CC6654091C46170E00E06A27 /* TTNetworkResponse+Format.m */; };
+		CC6654121C46173C00E06A27 /* TTDownloadRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CC66540D1C46173C00E06A27 /* TTDownloadRequest.m */; };
+		CC6654131C46173C00E06A27 /* TTLoginRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CC66540F1C46173C00E06A27 /* TTLoginRequest.m */; };
+		CC6654141C46173C00E06A27 /* TTUploadRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CC6654111C46173C00E06A27 /* TTUploadRequest.m */; };
+		CCDADCCB1C3BF0D800E64638 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CCDADCCA1C3BF0D800E64638 /* main.m */; };
+		CCDADCCE1C3BF0D800E64638 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CCDADCCD1C3BF0D800E64638 /* AppDelegate.m */; };
+		CCDADCD11C3BF0D800E64638 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCDADCD01C3BF0D800E64638 /* ViewController.m */; };
+		CCDADCD41C3BF0D800E64638 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CCDADCD21C3BF0D800E64638 /* Main.storyboard */; };
+		CCDADCD61C3BF0D800E64638 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CCDADCD51C3BF0D800E64638 /* Assets.xcassets */; };
+		CCDADCD91C3BF0D800E64638 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CCDADCD71C3BF0D800E64638 /* LaunchScreen.storyboard */; };
+		CCDADCE41C3BF0D800E64638 /* TTNetworkTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CCDADCE31C3BF0D800E64638 /* TTNetworkTests.m */; };
+		CCDADD2F1C3BF3B400E64638 /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = CCDADD2E1C3BF3B400E64638 /* NSString+MD5.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		CCDADCE01C3BF0D800E64638 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CCDADCBE1C3BF0D800E64638 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CCDADCC51C3BF0D800E64638;
+			remoteInfo = TTNetwork;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0225D1CA1792DD166BDB7AA1 /* Pods-TTNetworkDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TTNetworkDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TTNetworkDemo/Pods-TTNetworkDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		35A39EED00AD2D9F8F3B87E6 /* Pods-TTNetworkDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TTNetworkDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-TTNetworkDemo/Pods-TTNetworkDemo.release.xcconfig"; sourceTree = "<group>"; };
+		434D90008713CE094E65CF20 /* libPods-TTNetworkDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TTNetworkDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CC6653F51C46168F00E06A27 /* TTBaseRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTBaseRequest.h; sourceTree = "<group>"; };
+		CC6653F61C46168F00E06A27 /* TTBaseRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTBaseRequest.m; sourceTree = "<group>"; };
+		CC6653F71C46168F00E06A27 /* TTNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNetwork.h; sourceTree = "<group>"; };
+		CC6653F81C46168F00E06A27 /* TTNetworkConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNetworkConfig.h; sourceTree = "<group>"; };
+		CC6653F91C46168F00E06A27 /* TTNetworkConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTNetworkConfig.m; sourceTree = "<group>"; };
+		CC6653FA1C46168F00E06A27 /* TTNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNetworkManager.h; sourceTree = "<group>"; };
+		CC6653FB1C46168F00E06A27 /* TTNetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTNetworkManager.m; sourceTree = "<group>"; };
+		CC6653FC1C46168F00E06A27 /* TTNetworkPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNetworkPrivate.h; sourceTree = "<group>"; };
+		CC6653FD1C46168F00E06A27 /* TTNetworkPrivate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTNetworkPrivate.m; sourceTree = "<group>"; };
+		CC6653FE1C46168F00E06A27 /* TTNetworkResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNetworkResponse.h; sourceTree = "<group>"; };
+		CC6653FF1C46168F00E06A27 /* TTNetworkResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTNetworkResponse.m; sourceTree = "<group>"; };
+		CC6654071C46170E00E06A27 /* TTErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTErrors.h; sourceTree = "<group>"; };
+		CC6654081C46170E00E06A27 /* TTNetworkResponse+Format.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TTNetworkResponse+Format.h"; sourceTree = "<group>"; };
+		CC6654091C46170E00E06A27 /* TTNetworkResponse+Format.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TTNetworkResponse+Format.m"; sourceTree = "<group>"; };
+		CC66540C1C46173C00E06A27 /* TTDownloadRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTDownloadRequest.h; sourceTree = "<group>"; };
+		CC66540D1C46173C00E06A27 /* TTDownloadRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTDownloadRequest.m; sourceTree = "<group>"; };
+		CC66540E1C46173C00E06A27 /* TTLoginRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTLoginRequest.h; sourceTree = "<group>"; };
+		CC66540F1C46173C00E06A27 /* TTLoginRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTLoginRequest.m; sourceTree = "<group>"; };
+		CC6654101C46173C00E06A27 /* TTUploadRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTUploadRequest.h; sourceTree = "<group>"; };
+		CC6654111C46173C00E06A27 /* TTUploadRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTUploadRequest.m; sourceTree = "<group>"; };
+		CCDADCC61C3BF0D800E64638 /* TTNetworkDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TTNetworkDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CCDADCCA1C3BF0D800E64638 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		CCDADCCC1C3BF0D800E64638 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		CCDADCCD1C3BF0D800E64638 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		CCDADCCF1C3BF0D800E64638 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		CCDADCD01C3BF0D800E64638 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		CCDADCD31C3BF0D800E64638 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		CCDADCD51C3BF0D800E64638 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../Assets.xcassets; sourceTree = "<group>"; };
+		CCDADCD81C3BF0D800E64638 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		CCDADCDA1C3BF0D800E64638 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../Info.plist; sourceTree = "<group>"; };
+		CCDADCDF1C3BF0D800E64638 /* TTNetworkDemo.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TTNetworkDemo.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CCDADCE31C3BF0D800E64638 /* TTNetworkTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TTNetworkTests.m; sourceTree = "<group>"; };
+		CCDADCE51C3BF0D800E64638 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CCDADD2D1C3BF3B400E64638 /* NSString+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MD5.h"; sourceTree = "<group>"; };
+		CCDADD2E1C3BF3B400E64638 /* NSString+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MD5.m"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CCDADCC31C3BF0D800E64638 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8690058EFF9CDCAF00CBF7D9 /* libPods-TTNetworkDemo.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CCDADCDC1C3BF0D800E64638 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		5CD4FD8EEAF18EDC2F81CDFD /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				0225D1CA1792DD166BDB7AA1 /* Pods-TTNetworkDemo.debug.xcconfig */,
+				35A39EED00AD2D9F8F3B87E6 /* Pods-TTNetworkDemo.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		64FC41F3A42A84E00BD36530 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				434D90008713CE094E65CF20 /* libPods-TTNetworkDemo.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CC4B6FE81C3CB48B004310C3 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				CCDADCCC1C3BF0D800E64638 /* AppDelegate.h */,
+				CCDADCCD1C3BF0D800E64638 /* AppDelegate.m */,
+				CCDADCCF1C3BF0D800E64638 /* ViewController.h */,
+				CCDADCD01C3BF0D800E64638 /* ViewController.m */,
+				CCDADCD71C3BF0D800E64638 /* LaunchScreen.storyboard */,
+				CCDADCD21C3BF0D800E64638 /* Main.storyboard */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		CC6653F41C46168F00E06A27 /* TTNetwork */ = {
+			isa = PBXGroup;
+			children = (
+				CC6654061C46170E00E06A27 /* TTNetwork */,
+				CC66540B1C46173C00E06A27 /* Requests */,
+				CC6653F51C46168F00E06A27 /* TTBaseRequest.h */,
+				CC6653F61C46168F00E06A27 /* TTBaseRequest.m */,
+				CC6653F71C46168F00E06A27 /* TTNetwork.h */,
+				CC6653F81C46168F00E06A27 /* TTNetworkConfig.h */,
+				CC6653F91C46168F00E06A27 /* TTNetworkConfig.m */,
+				CC6653FA1C46168F00E06A27 /* TTNetworkManager.h */,
+				CC6653FB1C46168F00E06A27 /* TTNetworkManager.m */,
+				CC6653FC1C46168F00E06A27 /* TTNetworkPrivate.h */,
+				CC6653FD1C46168F00E06A27 /* TTNetworkPrivate.m */,
+				CC6653FE1C46168F00E06A27 /* TTNetworkResponse.h */,
+				CC6653FF1C46168F00E06A27 /* TTNetworkResponse.m */,
+			);
+			name = TTNetwork;
+			path = ../../TTNetwork;
+			sourceTree = "<group>";
+		};
+		CC6654061C46170E00E06A27 /* TTNetwork */ = {
+			isa = PBXGroup;
+			children = (
+				CC6654071C46170E00E06A27 /* TTErrors.h */,
+				CC6654081C46170E00E06A27 /* TTNetworkResponse+Format.h */,
+				CC6654091C46170E00E06A27 /* TTNetworkResponse+Format.m */,
+			);
+			name = TTNetwork;
+			path = TTNetworkDemo/Categorys/TTNetwork;
+			sourceTree = SOURCE_ROOT;
+		};
+		CC66540B1C46173C00E06A27 /* Requests */ = {
+			isa = PBXGroup;
+			children = (
+				CC66540C1C46173C00E06A27 /* TTDownloadRequest.h */,
+				CC66540D1C46173C00E06A27 /* TTDownloadRequest.m */,
+				CC66540E1C46173C00E06A27 /* TTLoginRequest.h */,
+				CC66540F1C46173C00E06A27 /* TTLoginRequest.m */,
+				CC6654101C46173C00E06A27 /* TTUploadRequest.h */,
+				CC6654111C46173C00E06A27 /* TTUploadRequest.m */,
+			);
+			name = Requests;
+			path = TTNetworkDemo/Requests;
+			sourceTree = SOURCE_ROOT;
+		};
+		CCDADCBD1C3BF0D800E64638 = {
+			isa = PBXGroup;
+			children = (
+				CCDADCC81C3BF0D800E64638 /* TTNetworkDemo */,
+				CCDADCE21C3BF0D800E64638 /* TTNetworkTests */,
+				64FC41F3A42A84E00BD36530 /* Frameworks */,
+				5CD4FD8EEAF18EDC2F81CDFD /* Pods */,
+				CCDADCC71C3BF0D800E64638 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		CCDADCC71C3BF0D800E64638 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CCDADCC61C3BF0D800E64638 /* TTNetworkDemo.app */,
+				CCDADCDF1C3BF0D800E64638 /* TTNetworkDemo.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CCDADCC81C3BF0D800E64638 /* TTNetworkDemo */ = {
+			isa = PBXGroup;
+			children = (
+				CC6653F41C46168F00E06A27 /* TTNetwork */,
+				CC4B6FE81C3CB48B004310C3 /* Classes */,
+				CCDADD2A1C3BF38500E64638 /* Categorys */,
+				CCDADCC91C3BF0D800E64638 /* Supporting Files */,
+			);
+			path = TTNetworkDemo;
+			sourceTree = "<group>";
+		};
+		CCDADCC91C3BF0D800E64638 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				CCDADCD51C3BF0D800E64638 /* Assets.xcassets */,
+				CCDADCDA1C3BF0D800E64638 /* Info.plist */,
+				CCDADCCA1C3BF0D800E64638 /* main.m */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		CCDADCE21C3BF0D800E64638 /* TTNetworkTests */ = {
+			isa = PBXGroup;
+			children = (
+				CCDADCE51C3BF0D800E64638 /* Info.plist */,
+				CCDADCE31C3BF0D800E64638 /* TTNetworkTests.m */,
+			);
+			path = TTNetworkTests;
+			sourceTree = "<group>";
+		};
+		CCDADD2A1C3BF38500E64638 /* Categorys */ = {
+			isa = PBXGroup;
+			children = (
+				CCDADD2B1C3BF38C00E64638 /* Foundation */,
+			);
+			path = Categorys;
+			sourceTree = "<group>";
+		};
+		CCDADD2B1C3BF38C00E64638 /* Foundation */ = {
+			isa = PBXGroup;
+			children = (
+				CCDADD2C1C3BF3AB00E64638 /* NSString */,
+			);
+			path = Foundation;
+			sourceTree = "<group>";
+		};
+		CCDADD2C1C3BF3AB00E64638 /* NSString */ = {
+			isa = PBXGroup;
+			children = (
+				CCDADD2D1C3BF3B400E64638 /* NSString+MD5.h */,
+				CCDADD2E1C3BF3B400E64638 /* NSString+MD5.m */,
+			);
+			path = NSString;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CCDADCC51C3BF0D800E64638 /* TTNetworkDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CCDADCE81C3BF0D900E64638 /* Build configuration list for PBXNativeTarget "TTNetworkDemo" */;
+			buildPhases = (
+				A067379B0EC0AB6236EB8C04 /* Check Pods Manifest.lock */,
+				CCDADCC21C3BF0D800E64638 /* Sources */,
+				CCDADCC31C3BF0D800E64638 /* Frameworks */,
+				CCDADCC41C3BF0D800E64638 /* Resources */,
+				5682D5BBDE00DBCD922FE9C9 /* Embed Pods Frameworks */,
+				F4B2599048FF8193727DAABC /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TTNetworkDemo;
+			productName = TTNetwork;
+			productReference = CCDADCC61C3BF0D800E64638 /* TTNetworkDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+		CCDADCDE1C3BF0D800E64638 /* TTNetworkDemoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CCDADCEB1C3BF0D900E64638 /* Build configuration list for PBXNativeTarget "TTNetworkDemoTests" */;
+			buildPhases = (
+				CCDADCDB1C3BF0D800E64638 /* Sources */,
+				CCDADCDC1C3BF0D800E64638 /* Frameworks */,
+				CCDADCDD1C3BF0D800E64638 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CCDADCE11C3BF0D800E64638 /* PBXTargetDependency */,
+			);
+			name = TTNetworkDemoTests;
+			productName = TTNetworkTests;
+			productReference = CCDADCDF1C3BF0D800E64638 /* TTNetworkDemo.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CCDADCBE1C3BF0D800E64638 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = "iOS Tofu.";
+				TargetAttributes = {
+					CCDADCC51C3BF0D800E64638 = {
+						CreatedOnToolsVersion = 7.1.1;
+					};
+					CCDADCDE1C3BF0D800E64638 = {
+						CreatedOnToolsVersion = 7.1.1;
+						TestTargetID = CCDADCC51C3BF0D800E64638;
+					};
+				};
+			};
+			buildConfigurationList = CCDADCC11C3BF0D800E64638 /* Build configuration list for PBXProject "TTNetworkDemo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = CCDADCBD1C3BF0D800E64638;
+			productRefGroup = CCDADCC71C3BF0D800E64638 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CCDADCC51C3BF0D800E64638 /* TTNetworkDemo */,
+				CCDADCDE1C3BF0D800E64638 /* TTNetworkDemoTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CCDADCC41C3BF0D800E64638 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CCDADCD91C3BF0D800E64638 /* LaunchScreen.storyboard in Resources */,
+				CCDADCD61C3BF0D800E64638 /* Assets.xcassets in Resources */,
+				CCDADCD41C3BF0D800E64638 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CCDADCDD1C3BF0D800E64638 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		5682D5BBDE00DBCD922FE9C9 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TTNetworkDemo/Pods-TTNetworkDemo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A067379B0EC0AB6236EB8C04 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		F4B2599048FF8193727DAABC /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TTNetworkDemo/Pods-TTNetworkDemo-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CCDADCC21C3BF0D800E64638 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CC66540A1C46170E00E06A27 /* TTNetworkResponse+Format.m in Sources */,
+				CC6654131C46173C00E06A27 /* TTLoginRequest.m in Sources */,
+				CCDADCD11C3BF0D800E64638 /* ViewController.m in Sources */,
+				CC6654001C46168F00E06A27 /* TTBaseRequest.m in Sources */,
+				CC6654031C46168F00E06A27 /* TTNetworkPrivate.m in Sources */,
+				CC6654021C46168F00E06A27 /* TTNetworkManager.m in Sources */,
+				CCDADD2F1C3BF3B400E64638 /* NSString+MD5.m in Sources */,
+				CC6654041C46168F00E06A27 /* TTNetworkResponse.m in Sources */,
+				CCDADCCE1C3BF0D800E64638 /* AppDelegate.m in Sources */,
+				CC6654011C46168F00E06A27 /* TTNetworkConfig.m in Sources */,
+				CCDADCCB1C3BF0D800E64638 /* main.m in Sources */,
+				CC6654141C46173C00E06A27 /* TTUploadRequest.m in Sources */,
+				CC6654121C46173C00E06A27 /* TTDownloadRequest.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CCDADCDB1C3BF0D800E64638 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CCDADCE41C3BF0D800E64638 /* TTNetworkTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		CCDADCE11C3BF0D800E64638 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CCDADCC51C3BF0D800E64638 /* TTNetworkDemo */;
+			targetProxy = CCDADCE01C3BF0D800E64638 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		CCDADCD21C3BF0D800E64638 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CCDADCD31C3BF0D800E64638 /* Base */,
+			);
+			name = Main.storyboard;
+			path = .;
+			sourceTree = "<group>";
+		};
+		CCDADCD71C3BF0D800E64638 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CCDADCD81C3BF0D800E64638 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			path = .;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		CCDADCE61C3BF0D800E64638 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		CCDADCE71C3BF0D800E64638 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		CCDADCE91C3BF0D900E64638 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0225D1CA1792DD166BDB7AA1 /* Pods-TTNetworkDemo.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = TTNetworkDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.tofu.TTNetworkDemo;
+				PRODUCT_NAME = TTNetworkDemo;
+			};
+			name = Debug;
+		};
+		CCDADCEA1C3BF0D900E64638 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 35A39EED00AD2D9F8F3B87E6 /* Pods-TTNetworkDemo.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = TTNetworkDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.tofu.TTNetworkDemo;
+				PRODUCT_NAME = TTNetworkDemo;
+			};
+			name = Release;
+		};
+		CCDADCEC1C3BF0D900E64638 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = TTNetworkTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.tofu.TTNetworkTests;
+				PRODUCT_NAME = TTNetworkDemo;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TTNetworkDemo.app/TTNetworkDemo";
+			};
+			name = Debug;
+		};
+		CCDADCED1C3BF0D900E64638 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = TTNetworkTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.tofu.TTNetworkTests;
+				PRODUCT_NAME = TTNetworkDemo;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TTNetworkDemo.app/TTNetworkDemo";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CCDADCC11C3BF0D800E64638 /* Build configuration list for PBXProject "TTNetworkDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CCDADCE61C3BF0D800E64638 /* Debug */,
+				CCDADCE71C3BF0D800E64638 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CCDADCE81C3BF0D900E64638 /* Build configuration list for PBXNativeTarget "TTNetworkDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CCDADCE91C3BF0D900E64638 /* Debug */,
+				CCDADCEA1C3BF0D900E64638 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CCDADCEB1C3BF0D900E64638 /* Build configuration list for PBXNativeTarget "TTNetworkDemoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CCDADCEC1C3BF0D900E64638 /* Debug */,
+				CCDADCED1C3BF0D900E64638 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = CCDADCBE1C3BF0D800E64638 /* Project object */;
+}
