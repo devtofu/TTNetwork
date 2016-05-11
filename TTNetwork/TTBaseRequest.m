@@ -34,14 +34,6 @@
     return self;
 }
 
-- (BOOL)needHeadField {
-    return YES;
-}
-
-- (BOOL)needHeadKid {
-    return YES;
-}
-
 - (BOOL)useCookies {
     return NO;
 }
@@ -71,16 +63,6 @@
     
     NSMutableDictionary *requestHeader = [NSMutableDictionary dictionary];
     requestHeader[@"client-type"] = @"mobile-iphone";
-    if (self.needHeadKid) {
-        if ([QHUserManager sharedManager].currentKid != nil) {
-            requestHeader[@"kidId"] = [[QHUserManager sharedManager].currentKid.kidId stringValue];
-        }
-    }
-    
-    if ([QHUserManager sharedManager].currentUser.authToken) {
-        requestHeader[@"userId"] = [[QHUserManager sharedManager].currentUser.userId stringValue];
-        requestHeader[@"authToken"] = [QHUserManager sharedManager].currentUser.authToken;
-    }
     return requestHeader;
 }
 
@@ -101,9 +83,7 @@
 }
 
 - (void)start {
-    [[TTNetworkManager sharedManager] startRequest:self
-                                           success:self.requestSuccessHandler
-                                           failure:self.requestFailureHandler];
+    [[TTNetworkManager sharedManager] startRequest:self];
 }
 
 - (void)stop {

@@ -12,6 +12,7 @@
 #import "TTUploadRequest.h"
 
 @interface ViewController ()
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 
 @end
 
@@ -35,19 +36,16 @@
     // 上传
     TTUploadRequest *uploadRequest = [[TTUploadRequest alloc] init];
     
-    [uploadRequest setConstructionBodyBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+    [uploadRequest startWithConstructionBodyBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         [formData appendPartWithFileData:[NSData data] name:@"avatarFile" fileName:@"avatar.jpg" mimeType:@"image/png"];
-    }];
-    
-    
-    [uploadRequest setCompletionProgress:^(NSProgress * _Nonnull progress) {
-        
-    }];
-    
-    [uploadRequest setCompletionBlockWithSuccess:^(TTBaseRequest * _Nonnull request) {
+    } success:^(TTBaseRequest * _Nonnull request) {
         
     } failure:^(TTBaseRequest * _Nonnull request) {
         
+    }];
+    
+    [uploadRequest setCompletionProgress:^(NSProgress * _Nonnull progress) {
+        TTLog(@"进度：%@",progress.localizedAdditionalDescription);
     }];
     
     [uploadRequest start];
@@ -56,20 +54,19 @@
 - (void)downloadRequest {
     // 下载
     TTDownloadRequest *downloadRequest = [[TTDownloadRequest alloc] initWithURL:@"http://res.61read.com/resources/3/2014023/de810b9a165351cb0cebd44b9e4bcd47.mp3"];
-    __block TTDownloadRequest *blockRequest = downloadRequest;
-    [downloadRequest setCompletionProgress:^(NSProgress * _Nonnull progress) {
-        // 默认下载进度描述
-        NSLog(@"%@ , %@",progress.localizedAdditionalDescription,progress.localizedDescription);
-
-        // 下载速度
-//        NSLog(@"下载速度 ：%.f kb/s",ceil([progress.userInfo[NSProgressThroughputKey] integerValue] / 1000));
-        
+    
+    [downloadRequest startWithCompletionBlockWithSuccess:^(TTBaseRequest * _Nonnull request) {
+         TTLog(@"request :%@, message: %@",request, request.message);
+    } failure:^(TTBaseRequest * _Nonnull request) {
+        TTLog(@"request :%@",request.error);
     }];
     
-    [downloadRequest setCompletionBlockWithSuccess:^(TTBaseRequest * _Nonnull request) {
-        NSLog(@"request :%@, message: %@",request, request.message);
-    } failure:^(TTBaseRequest * _Nonnull request) {
-        NSLog(@"request :%@",request.error);
+    [downloadRequest setCompletionProgress:^(NSProgress * _Nonnull progress) {
+        // 默认下载进度描述
+        TTLog(@"%@ , %@",progress.localizedAdditionalDescription,progress.localizedDescription);
+        
+        // 下载速度
+        //        NSLog(@"下载速度 ：%.f kb/s",ceil([progress.userInfo[NSProgressThroughputKey] integerValue] / 1000));
     }];
     
     [downloadRequest start];

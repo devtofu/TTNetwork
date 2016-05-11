@@ -6,23 +6,15 @@
 //  Copyright (c) 2015年 tofu jelly. All rights reserved.
 //
 
-#import "TTNetworkConfig.h"
 #import "TTNetworkManager.h"
 #import "TTBaseRequest.h"
+#import "TTNetworkConfig.h"
+#import "TTNetworkPrivate.h"
 #import "TTNetworkResponse.h"
 
 
 NSString *const TT_HTTP_COOKIE_KEY = @"TTNetworkCookieKey";
 NSString *const kRequestNoInternet = @"网络异常，请检查网络设置";
-NSString *const TTErrorDomain      = @"com.tofu.network.error.domain";
-NSString *const TTCocoaErrorDomain = @"com.tofu.network.cocoaError.domain";
-
-
-@interface TTNetworkManager (TTNetworkURLBuild)
-
-+ (NSString *)urlStringWithOriginUrlString:(NSString *)originUrlString appendParameters:(NSDictionary *)parameters;
-
-@end
 
 @interface TTNetworkManager() {
     
@@ -167,7 +159,7 @@ NSString *const TTCocoaErrorDomain = @"com.tofu.network.cocoaError.domain";
                     return request;
                 }
                 
-                NSString *filteredUrl = [TTNetworkManager urlStringWithOriginUrlString:url appendParameters:parameters];
+                NSString *filteredUrl = [TTNetworkPrivate urlStringWithOriginUrlString:url appendParameters:parameters];
                 NSURLRequest *requestURL = [NSURLRequest requestWithURL:[NSURL URLWithString:filteredUrl]];
                 
                 task = [_manager downloadTaskWithRequest:requestURL progress:request.completionProgress ?: nil destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response) {
@@ -367,49 +359,6 @@ NSString *const TTCocoaErrorDomain = @"com.tofu.network.cocoaError.domain";
     }
 }
 
-
-@end
-
-
-@implementation TTNetworkManager (TTNetworkURLBuild)
-
-
-+ (NSString *)urlStringWithOriginUrlString:(NSString *)originUrlString appendParameters:(NSDictionary *)parameters {
-    NSString *filteredUrl = originUrlString;
-    NSString *paraUrlString = [self urlParametersStringFromParameters:parameters];
-    if (paraUrlString && paraUrlString.length > 0) {
-        if ([originUrlString rangeOfString:@"?"].location != NSNotFound) {
-            filteredUrl = [filteredUrl stringByAppendingString:paraUrlString];
-        } else {
-            filteredUrl = [filteredUrl stringByAppendingFormat:@"?%@", [paraUrlString substringFromIndex:1]];
-        }
-        return filteredUrl;
-    } else {
-        return originUrlString;
-    }
-}
-
-
-+ (NSString *)urlParametersStringFromParameters:(NSDictionary *)parameters {
-    NSMutableString *urlParametersString = [[NSMutableString alloc] initWithString:@""];
-    if (parameters && parameters.count > 0) {
-        for (NSString *key in parameters) {
-            NSString *value = parameters[key];
-            value = [NSString stringWithFormat:@"%@",value];
-            value = [self urlEncode:value];
-            [urlParametersString appendFormat:@"&%@=%@", key, value];
-        }
-    }
-    return urlParametersString;
-}
-
-+ (NSString*)urlEncode:(NSString*)str {
-    //different library use slightly different escaped and unescaped set.
-    //below is copied from AFNetworking but still escaped [] as AF leave them for Rails array parameter which we don't use.
-    //https://github.com/AFNetworking/AFNetworking/pull/555
-    NSString *result = (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (__bridge CFStringRef)str, CFSTR("."), CFSTR(":/?#[]@!$&'()*+,;="), kCFStringEncodingUTF8);
-    return result;
-}
 
 @end
 
