@@ -125,14 +125,6 @@ typedef NS_ENUM(NSInteger, TTResponseSerializer) {
  */
 - (void)setCompletionProgress:(nullable void(^)(NSProgress * _Nonnull progress))completionProgress;
 
-/**
- Set request callback
- 
- @param success success callback
- @param failure failure callback
- */
-- (void)setCompletionBlockWithSuccess:(nullable void (^)(TTBaseRequest *request))success
-                              failure:(nullable void (^)(TTBaseRequest *request))failure;
 
 /**
  Creates and runs an `TTReuqest`.
@@ -155,11 +147,6 @@ typedef NS_ENUM(NSInteger, TTResponseSerializer) {
 - (void)startWithConstructionBodyBlock:(nullable void(^)(id<AFMultipartFormData> formData))constructionBodyBlock
                                success:(nullable void (^)(TTBaseRequest *request))success
                                failure:(nullable void (^)(TTBaseRequest *request))failure;
-
-/**
- POST upload request such as images
- */
-- (void)setConstructionBodyBlock:(nullable void(^)(id<AFMultipartFormData> formData))constructionBodyBlock;
 
 /**
  Break retain cycle, so you can use self in block.
