@@ -17,7 +17,7 @@ e.g.
 // 上传
     TTUploadRequest *uploadRequest = [[TTUploadRequest alloc] init];
     [uploadRequest startWithConstructionBodyBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
-    [formData appendPartWithFileData:[NSData data] name:@"avatarFile" fileName:@"avatar.jpg" mimeType:@"image/png"]; 
+    	[formData appendPartWithFileData:[NSData data] name:@"avatarFile" fileName:@"avatar.jpg" mimeType:@"image/png"]; 
     } success:^(TTBaseRequest * _Nonnull request) { 
     	NSLog("成功");  
     } failure:^(TTBaseRequest * _Nonnull request) { 
