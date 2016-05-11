@@ -361,17 +361,3 @@ NSString *const kRequestNoInternet = @"网络异常，请检查网络设置";
 
 
 @end
-
-@implementation TTNetworkManager (TTNetworkDeprecated)
-
-- (TTBaseRequest *)startRequest:(TTBaseRequest *)request success:(void(^) (TTBaseRequest *request))success failure:(void(^) (TTBaseRequest *request))failure {
-    
-    return [self startRequest:request success:success failure:failure progress:nil];
-}
-
-- (TTBaseRequest *)startRequest:(TTBaseRequest *)request success:(void (^)(TTBaseRequest * _Nonnull))success failure:(void (^)(TTBaseRequest * _Nonnull))failure progress:(void (^)(NSProgress * _Nonnull))progress {
-    
-    return [self startRequest:request];
-}
-
-@end

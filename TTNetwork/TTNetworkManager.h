@@ -66,38 +66,4 @@ typedef NS_ENUM(NSInteger, TTRequestReachabilityStatus) {
 @end
 
 
-@interface TTNetworkManager (TTNetworkDeprecated) 
-
-/**
- Creates an `TTBaseRequest` with the specified request.
- 
- @param request The request object to be loaded asynchronously during execution of the task.
- @param success A block object to be executed when the request operation finishes successfully. This block has no return value and takes two arguments: the created request operation and the object created from the response data of request.
- @param failure A block object to be executed when the request operation finishes unsuccessfully, or that finishes successfully, but encountered an error while parsing the response data. This block has no return value and takes two arguments:, the created request task and the `NSError` object describing the network or parsing error that occurred.
- */
-- (TTBaseRequest *)startRequest:(nonnull TTBaseRequest *)request
-                        success:(nullable void(^) (TTBaseRequest *request))success
-                        failure:(nullable void(^) (TTBaseRequest *request))failure TTNetworkDeprecated("please use [[TTNetworkManager sharedManager] startRequest:] instead");
-
-/**
- Creates a `TTBaseRequest` with the specified request.
- 
- When uploading files, you need to call `TTBaseRequest` of `setConstructionBodyBlock:` multi-part data.
- When download a file , you need to set the cache path `TTBaseRequest` file , as detailed in ` resumeDownloadPath` function .
- 
- @param request The HTTP/HTTPS request for the TTBaseRequest.
- @param success A block to be executed when a task finishes with success.
- @param failure A block to be executed when a task finishes with failure
- @param progress A progress object monitoring the current download/upload progress.
- 
- */
-- (TTBaseRequest *)startRequest:(nonnull TTBaseRequest *)request
-                        success:(nullable void (^)(TTBaseRequest *))success
-                        failure:(nullable void (^)(TTBaseRequest *))failure
-                       progress:(nullable void(^)(NSProgress *progress))progress TTNetworkDeprecated("please use [[TTNetworkManager sharedManager] startRequest:] instead");
-
-@end
-
-
-
 NS_ASSUME_NONNULL_END
