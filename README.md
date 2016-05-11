@@ -26,7 +26,7 @@ TTNetwork 是基于 AFNetworking 3.0 的二次封装。
 
 ```
 
-#### Custom Request base to TTBaseRequest
+#### Custom Requests based TTBaseRequest
 
 ```objective-c
 #import "TTBaseRequest.h"
