@@ -20,7 +20,8 @@ TTNetwork 是基于 AFNetworking 3.0 的二次封装。
     } failure:^(TTBaseRequest * _Nonnull request) { 
     	NSLog("失败");   
     }];
-    // 上传进度 [uploadRequest setCompletionProgress:^(NSProgress * _Nonnull progress) {
+    // 上传进度 
+    [uploadRequest setCompletionProgress:^(NSProgress * _Nonnull progress) {
         NSLog(@"进度：%@",progress.localizedAdditionalDescription);
     }];
 ```
