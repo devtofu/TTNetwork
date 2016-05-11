@@ -39,3 +39,7 @@ e.g.
 思路和代码借鉴来自于 [YTKNetwork](https://github.com/yuantiku/YTKNetwork) 。
 
 感谢 [猿题库](https://github.com/yuantiku) 的分享，感谢 [AFNetworking](https://github.com/AFNetworking/AFNetworking) 的贡献！
+
+## License
+
+TTNetwork is released under the MIT license. See LICENSE for details.
