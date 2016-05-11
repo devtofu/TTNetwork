@@ -40,4 +40,9 @@
     return @"/api/login";
 }
 
+- (id)requestParemeters {
+    return @{@"username":_userName,
+             @"password":_password};
+}
+
 @end

@@ -10,6 +10,7 @@
 #import "TTNetwork.h"
 #import "TTDownloadRequest.h"
 #import "TTUploadRequest.h"
+#import "TTLoginRequest.h"
 
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
@@ -32,6 +33,16 @@
 
 
 #pragma mark - Requests
+
+- (void)loginRequest {
+    TTLoginRequest *loginRequest = [[TTLoginRequest alloc] initWithUserName:@"tofu" password:@"tofu123"];
+    [loginRequest startWithCompletionBlockWithSuccess:^(TTBaseRequest * _Nonnull request) {
+        TTLog(@"成功 :%@",request.responseObject);
+    } failure:^(TTBaseRequest * _Nonnull request) {
+        TTLog(@"失败 :%@",request.error);
+    }];
+}
+
 - (void)uploadRequest {
     // 上传
     TTUploadRequest *uploadRequest = [[TTUploadRequest alloc] init];
@@ -39,16 +50,14 @@
     [uploadRequest startWithConstructionBodyBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         [formData appendPartWithFileData:[NSData data] name:@"avatarFile" fileName:@"avatar.jpg" mimeType:@"image/png"];
     } success:^(TTBaseRequest * _Nonnull request) {
-        
+        TTLog(@"成功 :%@",request.responseObject);
     } failure:^(TTBaseRequest * _Nonnull request) {
-        
+        TTLog(@"失败 :%@",request.error);
     }];
     
     [uploadRequest setCompletionProgress:^(NSProgress * _Nonnull progress) {
         TTLog(@"进度：%@",progress.localizedAdditionalDescription);
     }];
-    
-    [uploadRequest start];
 }
 
 - (void)downloadRequest {
@@ -56,9 +65,9 @@
     TTDownloadRequest *downloadRequest = [[TTDownloadRequest alloc] initWithURL:@"http://res.61read.com/resources/3/2014023/de810b9a165351cb0cebd44b9e4bcd47.mp3"];
     
     [downloadRequest startWithCompletionBlockWithSuccess:^(TTBaseRequest * _Nonnull request) {
-         TTLog(@"request :%@, message: %@",request, request.message);
+         TTLog(@"request.success :%@, message: %@",request, request.message);
     } failure:^(TTBaseRequest * _Nonnull request) {
-        TTLog(@"request :%@",request.error);
+        TTLog(@"request.error :%@",request.error);
     }];
     
     [downloadRequest setCompletionProgress:^(NSProgress * _Nonnull progress) {
@@ -68,8 +77,6 @@
         // 下载速度
         //        NSLog(@"下载速度 ：%.f kb/s",ceil([progress.userInfo[NSProgressThroughputKey] integerValue] / 1000));
     }];
-    
-    [downloadRequest start];
     
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -83,6 +90,8 @@
         NSLog(@"恢复下载");
     });
 }
+
+
 
 
 @end
