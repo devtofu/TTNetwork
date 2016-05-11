@@ -10,11 +10,19 @@
 #import "TTNetworkManager.h"
 #import "TTBaseRequest.h"
 #import "TTNetworkResponse.h"
-#import "TTNetworkPrivate.h"
 
 
 NSString *const TT_HTTP_COOKIE_KEY = @"TTNetworkCookieKey";
-NSString *const kRequestNoInternet = @"无网络";
+NSString *const kRequestNoInternet = @"网络异常，请检查网络设置";
+NSString *const TTErrorDomain      = @"com.tofu.network.error.domain";
+NSString *const TTCocoaErrorDomain = @"com.tofu.network.cocoaError.domain";
+
+
+@interface TTNetworkManager (TTNetworkURLBuild)
+
++ (NSString *)urlStringWithOriginUrlString:(NSString *)originUrlString appendParameters:(NSDictionary *)parameters;
+
+@end
 
 @interface TTNetworkManager() {
     
@@ -29,9 +37,13 @@ NSString *const kRequestNoInternet = @"无网络";
 
 @implementation TTNetworkManager
 
-//+ (void)load {
-//    [[TTNetworkManager sharedManager] startMonitoringNetwork];
-//}
+- (NSString *)ttNetworkVersion {
+    return @"v0.2";
+}
+
++ (void)load {
+    [[TTNetworkManager sharedManager] startMonitoringNetwork];
+}
 
 + (instancetype)sharedManager {
     static TTNetworkManager *sharedManager = nil;
@@ -74,22 +86,11 @@ NSString *const kRequestNoInternet = @"无网络";
     return [NSString stringWithFormat:@"%@%@", baseUrl, detailUrl];
 }
 
-- (TTBaseRequest *)startRequest:(TTBaseRequest *)request success:(void(^) (TTBaseRequest *request))success failure:(void(^) (TTBaseRequest *request))failure {
-    
-    return [self startRequest:request success:success failure:failure progress:nil];
-}
-
-- (TTBaseRequest *)startRequest:(TTBaseRequest *)request success:(void (^)(TTBaseRequest * _Nonnull))success failure:(void (^)(TTBaseRequest * _Nonnull))failure progress:(void (^)(NSProgress * _Nonnull))progress {
-    
+- (TTBaseRequest *)startRequest:(TTBaseRequest *)request {
     TTLog(@"Start Request: %@", NSStringFromClass([request class]));
     
-    [request setCompletionBlockWithSuccess:success failure:failure];
-    if (!request.completionProgress) {
-        [request setCompletionProgress:progress];
-    }
-    
     if (_manager.reachabilityManager.networkReachabilityStatus == TTRequestReachabilityStatusNotReachable) {
-        NSError *error = [NSError errorWithDomain:kRequestNoInternet code:NSURLErrorNotConnectedToInternet userInfo:nil];
+        NSError *error = [NSError errorWithDomain:TTErrorDomain code:NSURLErrorNotConnectedToInternet userInfo:@{NSLocalizedFailureReasonErrorKey:kRequestNoInternet}];
         request.response.error = error;
         [self requestDidFinishTag:request];
         return request;
@@ -107,7 +108,7 @@ NSString *const kRequestNoInternet = @"无网络";
     
     TTRequestMethod method = [request requestMethod];
     NSString *url = [self buildRequestUrl:request];
-    id parameters = request.requestArgument;
+    id parameters = request.requestParemeters;
     
     // config serializer
     if (request.requestSerializer == TTHTTPRequestSerializer) {
@@ -141,7 +142,8 @@ NSString *const kRequestNoInternet = @"无网络";
     // set acceptable content types
     _manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/plain",@"text/html", nil];
     
-    NSURLSessionTask *task;
+    __block NSURLSessionTask *task;
+    __block TTBaseRequest *requestBlock = request;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated"
     switch (method) {
@@ -165,36 +167,31 @@ NSString *const kRequestNoInternet = @"无网络";
                     return request;
                 }
                 
-                
-                NSString *filteredUrl = [TTNetworkPrivate urlStringWithOriginUrlString:url appendParameters:parameters];
+                NSString *filteredUrl = [TTNetworkManager urlStringWithOriginUrlString:url appendParameters:parameters];
                 NSURLRequest *requestURL = [NSURLRequest requestWithURL:[NSURL URLWithString:filteredUrl]];
                 
-                NSProgress *progress;
-                task = [_manager downloadTaskWithRequest:requestURL progress:&progress destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response) {
+                task = [_manager downloadTaskWithRequest:requestURL progress:request.completionProgress ?: nil destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response) {
                     NSURL *fileUrl = [NSURL fileURLWithPath:request.resumeDownloadPath];
                     return fileUrl;
                 } completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
-                    [progress removeObserver:request
-                                  forKeyPath:@"fractionCompleted"
-                                     context:NULL];
-                    NSDictionary *responseDict = @{@"success":@"1",
-                                                   @"msg":filePath};
-                    [self handleReponseResult:request.response.task response:responseDict error:error];
+                    if (error) {
+                        [fileManager removeItemAtPath:filePath.absoluteString error:nil];
+                        [self handleReponseResult:task response:nil error:error];
+                    } else {
+                        NSDictionary *responseDict = @{@"success":@"1",
+                                                       @"msg":filePath};
+                        [self handleReponseResult:task response:responseDict error:nil];
+                    }
                 }];
                 
                 [task resume];
                 
-                [progress addObserver:request
-                           forKeyPath:@"fractionCompleted"
-                              options:NSKeyValueObservingOptionNew
-                              context:NULL];
-                
             } else {
                 task = [_manager GET:url parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                    TTLog(@"URL:%@, paraDic:%@, Responese:%@",task.response.URL,parameters,responseObject);
+                    TTLog(@"url:%@, parameters:%@, responese:%@",requestBlock.requestUrl,parameters,responseObject);
                     [self handleReponseResult:task response:responseObject error:nil];
                 } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                    TTLog(@"param: %@, url :%@, \nerror: %@",parameters,task.response.URL,error);
+                    TTLog(@"param: %@, url :%@, \nerror: %@",parameters,requestBlock.requestUrl,error);
                     [self handleReponseResult:task response:nil error:error];
                 }];
             }
@@ -211,37 +208,22 @@ NSString *const kRequestNoInternet = @"无网络";
                     [self requestDidFinishTag:request];
                     return request;
                 }
-                NSProgress *progress;
-                task = [_manager uploadTaskWithStreamedRequest:requestURL progress:&progress completionHandler:^(NSURLResponse * __unused response, id responseObject, NSError *error) {
-                    TTLog(@"URL:%@, paraDic:%@, Responese:%@",response.URL,parameters,responseObject);
-                    [progress removeObserver:request
-                                  forKeyPath:@"fractionCompleted"
-                                     context:NULL];
+                
+                task = [_manager uploadTaskWithStreamedRequest:requestURL progress:request.completionProgress ?: nil completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
+                    TTLog(@"url:%@, parameters:%@, responese:%@",requestBlock.requestUrl,parameters,responseObject);
                     
                     [self handleReponseResult:task response:responseObject error:error];
                 }];
                 
                 [task resume];
                 
-                [progress addObserver:request
-                           forKeyPath:@"fractionCompleted"
-                              options:NSKeyValueObservingOptionNew
-                              context:NULL];
-                
-                // AFN 3.0 later
-                //                task = [_manager POST:url parameters:parameters constructingBodyWithBlock:request.constructionBodyBlock progress:request.completionProgress success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                //                    TTLog(@"URL:%@, paraDic:%@, Responese:%@",task.response.URL,parameters,responseObject);
-                //                    [self handleReponseResult:task response:responseObject error:nil];
-                //                } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                //                    TTLog(@"param: %@, url :%@, \nerror: %@",parameters,task.response.URL,error);
-                //                    [self handleReponseResult:task response:nil error:error];
-                //                }];
             } else {
+                
                 task = [_manager POST:url parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
-                    TTLog(@"URL:%@, paraDic:%@, Responese:%@",task.response.URL,parameters,responseObject);
+                    TTLog(@"url:%@, parameters:%@, responese:%@",requestBlock.requestUrl,parameters,responseObject);
                     [self handleReponseResult:task response:responseObject error:nil];
                 } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
-                    TTLog(@"param: %@, url :%@, \nerror: %@",parameters,task.response.URL,error);
+                    TTLog(@"param: %@, url :%@, \nerror: %@",parameters,requestBlock.requestUrl,error);
                     [self handleReponseResult:task response:nil error:error];
                 }];
             }
@@ -254,6 +236,7 @@ NSString *const kRequestNoInternet = @"无网络";
     request.response.task = task;
     [self addRequest:request];
     return request;
+
 }
 
 - (void)handleReponseResult:(id)task response:(id)responseObject error:(NSError *)error {
@@ -261,13 +244,15 @@ NSString *const kRequestNoInternet = @"无网络";
     NSString *key = [self taskHashKey:task];
     TTBaseRequest *request = _requestsRecord[key];
     if (error.code == NSURLErrorCancelled) {
-        [self removeRequest:task];
         [request clearComplition];
+        [self requestDidFinishTag:request];
+        [self removeRequest:task];
         return;
     }
     if (request) {
         if (error) {
             request.response.error = error;
+            request.response.message = error.localizedDescription;
         } else {
             request.response.responseObject = responseObject;
         }
@@ -318,8 +303,6 @@ NSString *const kRequestNoInternet = @"无网络";
         }
     }];
     [_manager.reachabilityManager startMonitoring];
-    
-    
 }
 
 
@@ -351,7 +334,7 @@ NSString *const kRequestNoInternet = @"无网络";
 }
 
 - (void)cancelAllRequests {
-    for (NSString *key in _requestsRecord) {
+    for (NSString *key in [_requestsRecord allKeys]) {
         TTBaseRequest *request = _requestsRecord[key];
         [self cancelRequest:request];
     }
@@ -382,6 +365,64 @@ NSString *const kRequestNoInternet = @"无网络";
             [cookieStorage setCookie:cookie];
         }
     }
+}
+
+
+@end
+
+
+@implementation TTNetworkManager (TTNetworkURLBuild)
+
+
++ (NSString *)urlStringWithOriginUrlString:(NSString *)originUrlString appendParameters:(NSDictionary *)parameters {
+    NSString *filteredUrl = originUrlString;
+    NSString *paraUrlString = [self urlParametersStringFromParameters:parameters];
+    if (paraUrlString && paraUrlString.length > 0) {
+        if ([originUrlString rangeOfString:@"?"].location != NSNotFound) {
+            filteredUrl = [filteredUrl stringByAppendingString:paraUrlString];
+        } else {
+            filteredUrl = [filteredUrl stringByAppendingFormat:@"?%@", [paraUrlString substringFromIndex:1]];
+        }
+        return filteredUrl;
+    } else {
+        return originUrlString;
+    }
+}
+
+
++ (NSString *)urlParametersStringFromParameters:(NSDictionary *)parameters {
+    NSMutableString *urlParametersString = [[NSMutableString alloc] initWithString:@""];
+    if (parameters && parameters.count > 0) {
+        for (NSString *key in parameters) {
+            NSString *value = parameters[key];
+            value = [NSString stringWithFormat:@"%@",value];
+            value = [self urlEncode:value];
+            [urlParametersString appendFormat:@"&%@=%@", key, value];
+        }
+    }
+    return urlParametersString;
+}
+
++ (NSString*)urlEncode:(NSString*)str {
+    //different library use slightly different escaped and unescaped set.
+    //below is copied from AFNetworking but still escaped [] as AF leave them for Rails array parameter which we don't use.
+    //https://github.com/AFNetworking/AFNetworking/pull/555
+    NSString *result = (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (__bridge CFStringRef)str, CFSTR("."), CFSTR(":/?#[]@!$&'()*+,;="), kCFStringEncodingUTF8);
+    return result;
+}
+
+@end
+
+@implementation TTNetworkManager (TTNetworkDeprecated)
+
+- (TTBaseRequest *)startRequest:(TTBaseRequest *)request success:(void(^) (TTBaseRequest *request))success failure:(void(^) (TTBaseRequest *request))failure {
+    
+    return [self startRequest:request success:success failure:failure progress:nil];
+}
+
+- (TTBaseRequest *)startRequest:(TTBaseRequest *)request success:(void (^)(TTBaseRequest * _Nonnull))success failure:(void (^)(TTBaseRequest * _Nonnull))failure progress:(void (^)(NSProgress * _Nonnull))progress {
+    
+    return [self startRequest:request];
 }
 
 @end

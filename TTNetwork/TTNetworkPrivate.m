@@ -7,10 +7,64 @@
 //
 
 #import "TTNetworkPrivate.h"
+#import "TTBaseRequest.h"
 
-
+NSString *const TTErrorDomain      = @"com.tofu.network.error.domain";
+NSString *const TTCocoaErrorDomain = @"com.tofu.network.cocoaError.domain";
+NSString *const kResultKey         = @"result";
+NSString *const kSuccessKey        = @"success";
+NSString *const kMessageKey        = @"msg";
+NSString *const kResponseCodeKey   = @"respCode";
+NSString *const kResponseDataKey   = @"data";
 
 @implementation TTNetworkPrivate
+
++ (BOOL)checkJson:(id)json withValidator:(id)validatorJson {
+    if ([json isKindOfClass:[NSDictionary class]] &&
+        [validatorJson isKindOfClass:[NSDictionary class]]) {
+        NSDictionary * dict = json;
+        NSDictionary * validator = validatorJson;
+        BOOL result = YES;
+        NSEnumerator * enumerator = [validator keyEnumerator];
+        NSString * key;
+        while ((key = [enumerator nextObject]) != nil) {
+            id value = dict[key];
+            id format = validator[key];
+            if ([value isKindOfClass:[NSDictionary class]]
+                || [value isKindOfClass:[NSArray class]]) {
+                result = [self checkJson:value withValidator:format];
+                if (!result) {
+                    break;
+                }
+            } else {
+                if ([value isKindOfClass:format] == NO &&
+                    [value isKindOfClass:[NSNull class]] == NO) {
+                    result = NO;
+                    break;
+                }
+            }
+        }
+        return result;
+    } else if ([json isKindOfClass:[NSArray class]] &&
+               [validatorJson isKindOfClass:[NSArray class]]) {
+        NSArray * validatorArray = (NSArray *)validatorJson;
+        if (validatorArray.count > 0) {
+            NSArray * array = json;
+            NSDictionary * validator = validatorJson[0];
+            for (id item in array) {
+                BOOL result = [self checkJson:item withValidator:validator];
+                if (!result) {
+                    return NO;
+                }
+            }
+        }
+        return YES;
+    } else if ([json isKindOfClass:validatorJson]) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
 
 + (NSString *)urlParametersStringFromParameters:(NSDictionary *)parameters {
     NSMutableString *urlParametersString = [[NSMutableString alloc] initWithString:@""];
@@ -48,5 +102,156 @@
     NSString *result = (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (__bridge CFStringRef)str, CFSTR("."), CFSTR(":/?#[]@!$&'()*+,;="), kCFStringEncodingUTF8);
     return result;
 }
+
+#pragma mark - Format Response
+
+/**
+ *  统一处理返回数据，保证最后取到的只包含需要的部份
+ *
+ *  @param responseObject 服务器返回的 JsonObject
+ *  @param request        当前请求
+ *
+ *  @return 格式化后的 object
+ */
++ (id)jsonObjectWithResponseObject:(id)responseObject request:(nonnull TTBaseRequest *)request {
+    if ([responseObject isKindOfClass:[NSDictionary class]]) {
+
+        NSDictionary *result = (NSDictionary *)responseObject[kResultKey] ?: responseObject;
+        NSError      *error = nil;
+        
+        NSNumber *code = result[kSuccessKey];
+        if (code.intValue == 1) {   //请求成功
+            NSString *msg = result[kMessageKey];
+            
+            id resultData = result[kResponseDataKey];
+            request.response.responseObject = resultData;
+            request.response.message = msg;
+            return resultData;
+
+        } else {
+            NSString *msg = result[kMessageKey];
+            NSInteger errorCode = [result[kResponseCodeKey] integerValue];
+            if (errorCode == TTURLResponseStatusSystemError) {
+                error = [NSError errorWithDomain:TTCocoaErrorDomain code:errorCode userInfo:@{NSLocalizedFailureReasonErrorKey:@"服务器异常"}];
+            } else {
+                error = [NSError errorWithDomain:TTCocoaErrorDomain code:errorCode userInfo:@{NSLocalizedFailureReasonErrorKey:msg ?: @""}];
+            }
+            request.response.error = error;
+            request.response.message = error.localizedFailureReason;
+            return result;
+        }
+    } else {
+#if DEBUG
+        NSError *error = [NSError errorWithDomain:TTCocoaErrorDomain code:TTURLErrorJSONInvalid userInfo:@{NSURLErrorFailingURLErrorKey:@"无效的 JSON 格式"}];
+        request.response.error = error;
+        request.response.message = error.localizedFailureReason;
+#endif
+        return nil;
+    }
+}
+
++ (NSError *)errorWithResponseError:(NSError *)error request:(nonnull TTBaseRequest *)request {
+    NSError *underlyingError = error.userInfo[NSUnderlyingErrorKey];
+    NSError *finalError = nil;
+    if (underlyingError.userInfo) {
+        NSHTTPURLResponse *response = underlyingError.userInfo[AFNetworkingOperationFailingURLResponseErrorKey];
+        if (response) {
+            [self httpErrorcode:response.statusCode error:&finalError];
+        } else {
+            NSInteger code = [underlyingError code];
+            [self urlErrorWithCode:code error:&finalError];
+        }
+    } else {
+        [self urlErrorWithCode:error.code error:&finalError];
+    }
+    request.response.error = finalError;
+    request.response.message = finalError.localizedFailureReason;
+    
+    return finalError;
+}
+
+
+
+/**
+ *  http response status code
+ *
+ *  @param errorCode
+ *  @param finalError
+ */
++ (void)httpErrorcode:(TTHTTPError)errorCode error:(NSError *__autoreleasing *)finalError {
+    
+    switch (errorCode) {
+        case TTHTTPErrorBadRequest: {
+            *finalError = [NSError errorWithDomain:TTErrorDomain code:TTHTTPErrorBadRequest userInfo:@{NSLocalizedFailureReasonErrorKey:@"无效的请求参数"}];
+            break;
+        }
+        case TTHTTPErrorNotFound: {
+             *finalError = [NSError errorWithDomain:TTErrorDomain code:TTHTTPErrorNotFound userInfo:@{NSLocalizedFailureReasonErrorKey:@"请求地址不存在"}];
+            break;
+        }
+        case TTHTTPErrorRequestTimeout: {
+            *finalError = [NSError errorWithDomain:TTErrorDomain code:TTHTTPErrorRequestTimeout userInfo:@{NSLocalizedFailureReasonErrorKey:@"请求超时"}];
+            break;
+        }
+        case TTHTTPErrorInternalServerError: {
+            *finalError = [NSError errorWithDomain:TTErrorDomain code:TTHTTPErrorInternalServerError userInfo:@{NSLocalizedFailureReasonErrorKey:@"服务器异常"}];
+            break;
+        }
+        default:
+            break;
+    }
+}
+
+/**
+ *  NURLError status code
+ *
+ *  @param errorCode
+ *  @param finalError
+ */
++ (void)urlErrorWithCode:(TTURLError)errorCode error:(NSError *__autoreleasing *)finalError {
+    switch (errorCode) {
+        case TTURLErrorTimeout:
+            *finalError = [NSError errorWithDomain:TTErrorDomain code:TTURLErrorTimeout userInfo:@{NSLocalizedFailureReasonErrorKey:@"请求超时"}];
+            break;
+        case TTURLErrorNetworkConnectinoLost:
+            *finalError = [NSError errorWithDomain:TTErrorDomain code:TTURLErrorNetworkConnectinoLost userInfo:@{NSLocalizedFailureReasonErrorKey:@"网络似乎有点问题"}];
+            break;
+        case TTURLErrorNoInternet:
+            *finalError = [NSError errorWithDomain:TTErrorDomain code:TTURLErrorNoInternet userInfo:@{NSLocalizedFailureReasonErrorKey:@"网络断开连接"}];
+            break;
+#ifdef DEBUG
+        case TTURLErrorBadRequest:
+            *finalError = [NSError errorWithDomain:TTErrorDomain code:TTURLErrorBadRequest userInfo:@{NSLocalizedFailureReasonErrorKey:@"参数错误"}];
+            break;
+        case TTURLErrorUnsupportedURL:
+        case TTURLErrorCannotFindHost:
+            *finalError = [NSError errorWithDomain:TTErrorDomain code:TTURLErrorUnsupportedURL | TTURLErrorCannotFindHost userInfo:@{NSLocalizedFailureReasonErrorKey:@"无效的URL地址"}];
+            break;
+        case TTURLErrorCannotConnectToHost:
+            *finalError = [NSError errorWithDomain:TTErrorDomain code:TTURLErrorCannotConnectToHost userInfo:@{NSLocalizedFailureReasonErrorKey:@"无法连接服务器"}];
+            break;
+        case TTURLErrorResourceUnavailable:
+            *finalError = [NSError errorWithDomain:TTErrorDomain code:TTURLErrorResourceUnavailable userInfo:@{NSLocalizedFailureReasonErrorKey:@"资源不可用"}];
+            break;
+        case TTURLErrorBadServerResponse:
+            *finalError = [NSError errorWithDomain:TTErrorDomain code:TTURLErrorBadServerResponse userInfo:@{NSLocalizedFailureReasonErrorKey:@"服务器出现异常"}];
+            break;
+        case TTURLErrorrTansportSecurityOlicyRequires:
+            *finalError = [NSError errorWithDomain:TTErrorDomain code:TTURLErrorrTansportSecurityOlicyRequires userInfo:@{NSLocalizedFailureReasonErrorKey:@"为了数据安全，请使用 HTTPS 协议"}];
+            break;
+        case TTURLErrorUnknow:
+            break;
+        case TTURLErrorCancelled:
+            *finalError = [NSError errorWithDomain:TTErrorDomain code:TTURLErrorCancelled userInfo:@{NSLocalizedFailureReasonErrorKey:@"用户取消操作"}];
+            break;
+        case TTURLErrorJSONInvalid:
+            *finalError = [NSError errorWithDomain:TTErrorDomain code:TTURLErrorJSONInvalid userInfo:@{NSLocalizedFailureReasonErrorKey:@"无效的 JSON 数据"}];
+            break;
+#endif
+        default:
+            break;
+    }
+}
+
 
 @end

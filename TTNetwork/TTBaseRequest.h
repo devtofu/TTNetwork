@@ -70,7 +70,7 @@ typedef NS_ENUM(NSInteger, TTResponseSerializer) {
 // default is NO
 @property (nonatomic, assign, readonly) BOOL useCookies;
 
-
+@property (assign, nonatomic) BOOL needHeadKid;
 /**
   By default, this is set to an enum of `TTHTTPRequestSerializer`.
  */
@@ -120,6 +120,12 @@ typedef NS_ENUM(NSInteger, TTResponseSerializer) {
  */
 - (void)resume;
 
+
+/**
+ Upload or download progress callback
+ */
+- (void)setCompletionProgress:(nullable void(^)(NSProgress *progress))completionProgress;
+
 /**
  Set request callback
  
@@ -128,10 +134,28 @@ typedef NS_ENUM(NSInteger, TTResponseSerializer) {
  */
 - (void)setCompletionBlockWithSuccess:(nullable void (^)(TTBaseRequest *request))success
                               failure:(nullable void (^)(TTBaseRequest *request))failure;
+
 /**
- Upload or download progress callback
+ Creates and runs an `TTReuqest`.
+ 
+ @param success A block object to be executed when the request task finishes successfully. This block has no return value and takes two arguments: the request task, and the response object created by the client response serializer.
+ @param failure A block object to be executed when the request task finishes successfully. This block has no return value and takes two arguments: the request task, and the response object created by the client response serializer.
+ @see `TTNetworkManager` instance method -startRequest::success:failure:
  */
-- (void)setCompletionProgress:(nullable void(^)(NSProgress *progress))completionProgress;
+- (void)startWithCompletionBlockWithSuccess:(nullable void (^)(TTBaseRequest *request))success
+                                    failure:(nullable void (^)(TTBaseRequest *request))failure;
+/**
+ Creates and runs an `TTReuqest` with a multipart `POST` request.
+ 
+ @param block A block that takes a single argument and appends data to the HTTP body. The block argument is an object adopting the `AFMultipartFormData` protocol.
+ @param success A block object to be executed when the request task finishes successfully. This block has no return value and takes two arguments: the request task, and the response object created by the client response serializer.
+ @param failure A block object to be executed when the request task finishes unsuccessfully, or that finishes successfully, but encountered an error while parsing the response data. This block has no return value and takes a two arguments: the request task and the error describing the network or parsing error that occurred.
+ 
+ @see `TTNetworkManager` instance method -startRequest::success:failure:
+ */
+- (void)startWithConstructionBodyBlock:(nullable void(^)(id<AFMultipartFormData> formData))constructionBodyBlock
+                               success:(nullable void (^)(TTBaseRequest *request))success
+                               failure:(nullable void (^)(TTBaseRequest *request))failure;
 
 /**
  POST upload request such as images
@@ -177,7 +201,7 @@ typedef NS_ENUM(NSInteger, TTResponseSerializer) {
  
  @return argments
  */
-- (id)requestArgument;
+- (id)requestParemeters;
 
 /**
  Set request timeout interval
@@ -201,7 +225,6 @@ typedef NS_ENUM(NSInteger, TTResponseSerializer) {
  @return Local storage file path
  */
 - (nullable NSString *)resumeDownloadPath;
-
 
 
 @end

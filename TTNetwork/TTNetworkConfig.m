@@ -19,9 +19,9 @@
     return sharedInstance;
 }
 
-- (NSString *)baseUrl {
-    return @"http://www.baidu.com";
-}
+//- (NSString *)baseUrl {
+//    return @"http://www.baidu.com";
+//}
 
 /*
 - (NSDictionary *)responseJSONStruct {

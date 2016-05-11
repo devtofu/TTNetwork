@@ -10,12 +10,14 @@
 #define TTErrors_h
 
 typedef NS_ENUM(NSInteger, TTError) {
-    TTErrorSystem = 40000
+    TTErrorSystem = 40000,
+    TTErrorCocoaData = 40001,
 };
 
-typedef NS_ENUM(NSInteger, TTURLResponse) {
+typedef NS_ENUM(NSInteger, TTURLResponseStatus) {
     /** Request Success,*/
-    TTURLResponseSuccess = 200
+    TTURLResponseStatusSuccess = 200,
+    TTURLResponseStatusSystemError = 4646
 };
 
 typedef NS_ENUM(NSInteger, TTHTTPError) {

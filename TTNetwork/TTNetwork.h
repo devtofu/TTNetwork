@@ -11,5 +11,6 @@
 #import "TTNetworkManager.h"
 #import "TTNetworkConfig.h"
 #import "TTBaseRequest.h"
+#import "TTErrors.h"
 
 #endif /* TTNetwork_h */

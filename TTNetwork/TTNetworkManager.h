@@ -14,7 +14,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-FOUNDATION_EXTERN NSString *const TT_HTTP_COOKIE_KEY;
+
 
 @class TTBaseRequest;
 
@@ -41,13 +41,11 @@ typedef NS_ENUM(NSInteger, TTRequestReachabilityStatus) {
 @property (nonatomic, strong, readonly) AFHTTPSessionManager *manager;
 
 /**
- Creates a `TTBaseRequest` with the specified request.
+ Creates an `TTBaseRequest` with the specified request.
  
- @param request TTBaseRequest 's subclass
- @param success success callback
- @param failure failure callback
- 
- @return The current request
+ @param request The request object to be loaded asynchronously during execution of the task.
+ @param success A block object to be executed when the request operation finishes successfully. This block has no return value and takes two arguments: the created request operation and the object created from the response data of request.
+ @param failure A block object to be executed when the request operation finishes unsuccessfully, or that finishes successfully, but encountered an error while parsing the response data. This block has no return value and takes two arguments:, the created request task and the `NSError` object describing the network or parsing error that occurred.
 */
 - (TTBaseRequest *)startRequest:(nonnull TTBaseRequest *)request
                         success:(nullable void(^) (TTBaseRequest *request))success

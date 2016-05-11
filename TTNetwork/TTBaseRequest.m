@@ -15,8 +15,7 @@
 
 @property (nonatomic, assign, readwrite) BOOL useCookies;
 @property (nonatomic, strong) TTNetworkResponse *response;
-
-
+@property (nonatomic, strong) NSProgress *progress;
 
 @end
 
@@ -31,9 +30,16 @@
         self.response = [TTNetworkResponse response];
         self.constructionBodyBlock = nil;
         self.completionProgress = nil;
-        
     }
     return self;
+}
+
+- (BOOL)needHeadField {
+    return YES;
+}
+
+- (BOOL)needHeadKid {
+    return YES;
 }
 
 - (BOOL)useCookies {
@@ -48,7 +54,7 @@
     return @"";
 }
 
-- (id)requestArgument {
+- (id)requestParemeters {
     return nil;
 }
 
@@ -62,11 +68,20 @@
 }
 
 - (NSDictionary *)requestHeaderFieldValueDictionary {
-//    return @{@"client-type":@"mobile-iphone",
-//             @"kidId":@"2",
-//             @"userId":@"1",
-//             @"authToken":@"0mS2Oh2Vv1fgkwvo6lyF7gnNucrbQP/aB3cOw43Z6PVVmI1zH8FNCaJo/bEHtooNmFVLwsEFwfNXucq21I5b6Q=="};
-    return nil;
+    
+    NSMutableDictionary *requestHeader = [NSMutableDictionary dictionary];
+    requestHeader[@"client-type"] = @"mobile-iphone";
+    if (self.needHeadKid) {
+        if ([QHUserManager sharedManager].currentKid != nil) {
+            requestHeader[@"kidId"] = [[QHUserManager sharedManager].currentKid.kidId stringValue];
+        }
+    }
+    
+    if ([QHUserManager sharedManager].currentUser.authToken) {
+        requestHeader[@"userId"] = [[QHUserManager sharedManager].currentUser.userId stringValue];
+        requestHeader[@"authToken"] = [QHUserManager sharedManager].currentUser.authToken;
+    }
+    return requestHeader;
 }
 
 - (NSString *)resumeDownloadPath {
@@ -150,6 +165,19 @@
     _constructionBodyBlock = constructionBodyBlock;
 }
 
+- (void)startWithCompletionBlockWithSuccess:(void (^)(TTBaseRequest * _Nonnull))success failure:(void (^)(TTBaseRequest * _Nonnull))failure {
+    self.requestSuccessHandler = success;
+    self.requestFailureHandler = failure;
+    [self start];
+}
+
+- (void)startWithConstructionBodyBlock:(void (^)(id<AFMultipartFormData> _Nonnull))constructionBodyBlock success:(void (^)(TTBaseRequest * _Nonnull))success failure:(void (^)(TTBaseRequest * _Nonnull))failure {
+    self.constructionBodyBlock = constructionBodyBlock;
+    self.requestSuccessHandler = success;
+    self.requestFailureHandler = failure;
+    [self start];
+}
+
 - (void)clearComplition {
     self.requestSuccessHandler = nil;
     self.requestFailureHandler = nil;
@@ -183,9 +211,15 @@
         if (self.completionProgress) {
             self.completionProgress(progress);
         }
+        self.progress = progress;
     }
 }
 
+- (void)dealloc {
+    if (self.progress) {
+        [self.progress removeObserver:self forKeyPath:@"fractionCompleted"];
+    }
+}
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"[<%@: %p> ,URL: %@]",NSStringFromClass([self class]),self,[self requestUrl]];
