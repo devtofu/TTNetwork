@@ -104,7 +104,7 @@ TTLoginRequest *loginRequest = [[TTLoginRequest alloc] initWithUserName:@"tofu" 
 ```
 
 
-更多用法请参照 Demo .
+更多用法请查看 **TTBaseRequest.h**.
 
 
 
