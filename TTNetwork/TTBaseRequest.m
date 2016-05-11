@@ -132,10 +132,6 @@
     }
 }
 
-- (void)setCompletionBlockWithSuccess:(void (^)(TTBaseRequest *))success failure:(void (^)(TTBaseRequest *))failure {
-    self.requestSuccessHandler = success;
-    self.requestFailureHandler = failure;
-}
 
 - (void)setCompletionProgress:(void (^)(NSProgress * _Nonnull))completionProgress {
     _completionProgress = completionProgress;
