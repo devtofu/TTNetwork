@@ -11,7 +11,7 @@
 #import "TTNetworkConfig.h"
 #import "TTNetworkPrivate.h"
 #import "TTNetworkResponse.h"
-
+#import "TTNetworkResponseProtocol.h"
 
 NSString *const TT_HTTP_COOKIE_KEY = @"TTNetworkCookieKey";
 NSString *const kRequestNoInternet = @"网络异常，请检查网络设置";
@@ -23,14 +23,14 @@ NSString *const kRequestNoInternet = @"网络异常，请检查网络设置";
 }
 
 @property (nonatomic, assign, readwrite) TTRequestReachabilityStatus reachabilityStatus;
-
+@property (nonatomic, strong) id<TTNetworkResponseProtocol> responseProtocol;
 
 @end
 
 @implementation TTNetworkManager
 
 - (NSString *)ttNetworkVersion {
-    return @"v0.2";
+    return @"v0.3";
 }
 
 + (void)load {
@@ -50,11 +50,11 @@ NSString *const kRequestNoInternet = @"网络异常，请检查网络设置";
 - (instancetype)init {
     self = [super init];
     if (self) {
-        
         NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
         _manager = [[AFHTTPSessionManager alloc] initWithSessionConfiguration:configuration];
-        _config = [TTNetworkConfig sharedInstance];
         _requestsRecord = [NSMutableDictionary dictionary];
+        _config = [TTNetworkConfig sharedInstance];
+        _responseProtocol = [_config configureForJSONParser];
     }
     return self;
 }
@@ -242,11 +242,20 @@ NSString *const kRequestNoInternet = @"网络异常，请检查网络设置";
         return;
     }
     if (request) {
-        if (error) {
-            request.response.error = error;
-            request.response.message = error.localizedDescription;
+        if (self.responseProtocol) {
+            if ([self.responseProtocol respondsToSelector:@selector(prettyPrintedForJSONObject:request:)]) {
+                id prettyJSONObject = [self.responseProtocol prettyPrintedForJSONObject:responseObject request:request];
+                request.response.responseObject = prettyJSONObject;
+            }
+            
+            if ([self.responseProtocol respondsToSelector:@selector(prettyPrintedForError:request:)]) {
+                NSError *underlineError = [self.responseProtocol prettyPrintedForError:error request:request];
+                request.response.error = underlineError;
+                request.response.message = underlineError.localizedFailureReason;
+            }
         } else {
             request.response.responseObject = responseObject;
+            request.response.error = error;
         }
     }
     [self requestDidFinishTag:request];

@@ -54,6 +54,98 @@ TTNetwork 是基于 AFNetworking 3.0 的二次封装。
 - requestUrl
 - requestParemeters
 
+#### Custom response json parser
+Generally, API design will adopt a unified data structure, such as:
+
+```objective-c
+// 登录
+{
+	status : 0,
+	message : "账号或密码不正确",
+	responseData : []
+}
+// 注册
+{
+	status : 1,
+	message : "注册成功",
+	responseData : {
+		id : 1,
+		username : xxxxx ,
+		passowrd : xxxx
+	}
+}
+```
+
+If the resolution **status**  with each request to determine whether the API success becomes more cumbersome.
+
+So, add a custom json parser, e.g:
+
+```objective-c 
+
+#import "TTNetworkResponseProtocol.h"
+
+@interface TTNetworkPrivate : NSObject<TTNetworkResponseProtocol>
+
+@end
+
+@implementation TTNetworkPrivate
+
+// custom parser for responseObject
+
+- (id)prettyPrintedForJSONObject:(id)responseObject request:(nonnull TTBaseRequest *)request { 
+	if (!responseObject) {
+        request.response.responseObject = nil;
+        return nil;
+    }
+    
+    if ([responseObject isKindOfClass:[NSDictionary class]]) {
+    	BOOL sucess = [responseObject[@"status"] boolValue];
+    	if (sucess) {
+    		id result =  responseObject[@"responseData"];
+    		request.response.responseObject = result;
+    		request.response.message = responseObject[@"message"];
+    		return result;
+    	} else {
+    		NSError *error = ...
+    		request.response.error = error;
+    		request.response.message = responseObject[@"message"];
+    		return nil;
+    	}
+    }
+    
+    return responseObject;
+}
+
+// custom parser for error 
+
+- (NSError *)prettyPrintedForError:(NSError *)error request:(TTBaseRequest *)request {
+    
+    if (!error) {
+        return nil;
+    }
+    
+    // custom error parser
+    NSError *prettyPrintedError = ....
+    return prettyPrintedError;
+}
+
+@end
+
+
+// implement TTNetworkConfig's `configureForJSONParser` method
+
+@implementation TTNetworkConfig
+
+- (id<TTNetworkResponseProtocol>)configureForJSONParser {
+    return [[TTNetworkPrivate alloc] init];
+}
+
+@end
+
+```
+
+For more details, please see Demo.
+
 ####  Creating an Upload Task for a Multi-Part Request, with Progress
 
 ```objective-c 
@@ -72,6 +164,8 @@ TTNetwork 是基于 AFNetworking 3.0 的二次封装。
     }];
 
 ```
+
+For more details, please see Demo.
 
 #### Creating a Download Task
 
@@ -92,6 +186,9 @@ TTDownloadRequest *downloadRequest = [[TTDownloadRequest alloc] initWithURL:@"ht
         //        NSLog(@"下载速度 ：%.f kb/s",ceil([progress.userInfo[NSProgressThroughputKey] integerValue] / 1000));
     }];
 ```
+
+For more details, please see Demo.
+
 #### Creating a Data Task
 
 ```objective-c
@@ -104,9 +201,7 @@ TTLoginRequest *loginRequest = [[TTLoginRequest alloc] initWithUserName:@"tofu" 
 ```
 
 
-更多用法请查看 **TTBaseRequest.h**.
-
-
+For more details, please see **TTBaseRequest.h**.
 
 ## Thanks 
 

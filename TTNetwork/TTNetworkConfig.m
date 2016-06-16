@@ -7,6 +7,7 @@
 //
 
 #import "TTNetworkConfig.h"
+#import "TTNetworkPrivate.h"
 
 @implementation TTNetworkConfig
 
@@ -23,14 +24,6 @@
 //    return @"http://www.baidu.com";
 //}
 
-/*
-- (NSDictionary *)responseJSONStruct {
-    return @{@"result":@{@"success":[NSNumber class],
-                          @"kResponseCodeKey":[NSNumber class],
-                          @"msg":[NSString class],
-                          @"data":[NSDictionary class]}};
-}
-*/
 
 - (AFSecurityPolicy *)securityPolicy {
     /*
@@ -41,6 +34,10 @@
     return securityPolicy;
      */
     return nil;
+}
+
+- (id<TTNetworkResponseProtocol>)configureForJSONParser {
+    return [[TTNetworkPrivate alloc] init];
 }
 
 @end

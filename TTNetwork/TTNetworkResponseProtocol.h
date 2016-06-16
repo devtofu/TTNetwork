@@ -1,6 +1,6 @@
 //
 //  TTNetworkResponseProtocol.h
-//  QiHaoBox
+//  TTDemo
 //
 //  Created by tofu on 6/16/16.
 //  Copyright © 2016 QiHao. All rights reserved.
@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
+@class TTBaseRequest;
 /**
  *  自定义 服务器返回的 JSON 解析
  */

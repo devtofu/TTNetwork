@@ -9,8 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "AFNetworking.h"
 
-
 NS_ASSUME_NONNULL_BEGIN
+@protocol TTNetworkResponseProtocol;
 
 @interface TTNetworkConfig : NSObject
 
@@ -30,9 +30,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (nullable AFSecurityPolicy *)securityPolicy;
 
-/*
-- (NSDictionary *)responseJSONStruct;
+/**
+ *  Custom json parser
+ *
+ *  @return An overried `TTNetworkResponseProtocol` 's object
  */
+- (nullable id<TTNetworkResponseProtocol>)configureForJSONParser;
 
 @end
 

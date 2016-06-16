@@ -7,18 +7,19 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "TTNetworkResponseProtocol.h"
 
 NS_ASSUME_NONNULL_BEGIN
-
 @class TTBaseRequest;
 
-@interface TTNetworkPrivate : NSObject
+@interface TTNetworkPrivate : NSObject<TTNetworkResponseProtocol>
 
 /**
   Construction of URL
  */
 + (NSString *)urlStringWithOriginUrlString:(NSString *)originUrlString
                           appendParameters:(NSDictionary *)parameters;
+
 
 @end
 

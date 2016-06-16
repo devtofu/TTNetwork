@@ -1,13 +1,13 @@
 //
-//  QHErrors.h
-//  QiHaoBox
+//  TTErrorCode.h
+//  TTDemo
 //
 //  Created by tofu on 15/12/1.
-//  Copyright © 2015年 QiHao. All rights reserved.
+//  Copyright © 2015年 iOS Tofu. All rights reserved.
 //
 
-#ifndef TTErrors_h
-#define TTErrors_h
+#ifndef TTErrorCode_h
+#define TTErrorCode_h
 
 /**
  *  QiHao ErrorCode
