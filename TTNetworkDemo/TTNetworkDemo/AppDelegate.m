@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "TTNetwork.h"
+#import "TTNetworkCustomJSONFilter.h"
 @interface AppDelegate ()
 
 @end
@@ -18,6 +19,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     [[TTNetworkManager sharedManager] startMonitoringNetwork];
+    [[TTNetworkConfig sharedInstance] setConfigureForJSONFilter:[[TTNetworkCustomJSONFilter alloc] init]];
     
     return YES;
 }

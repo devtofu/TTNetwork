@@ -11,13 +11,10 @@
 
 #import <Foundation/Foundation.h>
 #import "AFNetworking.h"
-#import "TTNetworkConst.h"
 
 NS_ASSUME_NONNULL_BEGIN
-
-
-
 @class TTBaseRequest;
+@protocol TTNetworkResponseProtocol;
 
 typedef NS_ENUM(NSInteger, TTRequestReachabilityStatus) {
     TTRequestReachabilityStatusUnknow = AFNetworkReachabilityStatusUnknown,
@@ -27,7 +24,7 @@ typedef NS_ENUM(NSInteger, TTRequestReachabilityStatus) {
 };
 
 /*!
- @brief TTNetwork 2.0
+ @brief TTNetwork 0.2
  */
 @interface TTNetworkManager : NSObject
 
@@ -42,13 +39,11 @@ typedef NS_ENUM(NSInteger, TTRequestReachabilityStatus) {
 @property (nonatomic, strong, readonly) AFHTTPSessionManager *manager;
 
 /**
- Creates a `TTBaseRequest` with the specified request.
+ Creates an `TTBaseRequest` with the specified request.
  
- @param request The HTTP/HTTPS request for the TTBaseRequest.
-
+ @param request The request object to be loaded asynchronously during execution of the task.
 */
 - (TTBaseRequest *)startRequest:(nonnull TTBaseRequest *)request;
-
 - (void)cancelRequest:(nonnull TTBaseRequest *)request;
 - (void)cancelAllRequests;
 
@@ -57,13 +52,25 @@ typedef NS_ENUM(NSInteger, TTRequestReachabilityStatus) {
  */
 - (void)startMonitoringNetwork;
 
+@end
+
+
+
+@interface TTNetworkUtil : NSObject
+
++ (BOOL)checkJson:(id)json withValidator:(id)validatorJson;
+
 /**
- Get TTNetwork current's version
-  @return current's version
+ Construction of URL
  */
-- (NSString *)ttNetworkVersion;
++ (NSString *)urlStringWithOriginUrlString:(NSString *)originUrlString
+                          appendParameters:(NSDictionary *)parameters;
+
 
 @end
 
+
+FOUNDATION_EXTERN NSString *const TTErrorDomain;
+FOUNDATION_EXTERN NSString *const TTCocoaErrorDomain;
 
 NS_ASSUME_NONNULL_END

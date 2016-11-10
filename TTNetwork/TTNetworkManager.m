@@ -6,15 +6,21 @@
 //  Copyright (c) 2015年 tofu jelly. All rights reserved.
 //
 
+#import "TTNetworkConfig.h"
 #import "TTNetworkManager.h"
 #import "TTBaseRequest.h"
-#import "TTNetworkConfig.h"
-#import "TTNetworkPrivate.h"
 #import "TTNetworkResponse.h"
 #import "TTNetworkResponseProtocol.h"
+#import "TTErrors.h"
+#import "TTNetworkConst.h"
+
+
+NSString *const TTErrorDomain      = @"com.tofu.network.error.domain";
+NSString *const TTCocoaErrorDomain = @"com.tofu.network.cocoaError.domain";
 
 NSString *const TT_HTTP_COOKIE_KEY = @"TTNetworkCookieKey";
 NSString *const kRequestNoInternet = @"网络异常，请检查网络设置";
+
 
 @interface TTNetworkManager() {
     
@@ -28,10 +34,6 @@ NSString *const kRequestNoInternet = @"网络异常，请检查网络设置";
 @end
 
 @implementation TTNetworkManager
-
-- (NSString *)ttNetworkVersion {
-    return @"v0.3";
-}
 
 + (void)load {
     [[TTNetworkManager sharedManager] startMonitoringNetwork];
@@ -50,11 +52,12 @@ NSString *const kRequestNoInternet = @"网络异常，请检查网络设置";
 - (instancetype)init {
     self = [super init];
     if (self) {
+        
         NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
         _manager = [[AFHTTPSessionManager alloc] initWithSessionConfiguration:configuration];
         _requestsRecord = [NSMutableDictionary dictionary];
         _config = [TTNetworkConfig sharedInstance];
-        _responseProtocol = [_config configureForJSONParser];
+        _responseProtocol = _config.configureForJSONFilter;
     }
     return self;
 }
@@ -78,11 +81,13 @@ NSString *const kRequestNoInternet = @"网络异常，请检查网络设置";
     return [NSString stringWithFormat:@"%@%@", baseUrl, detailUrl];
 }
 
+#pragma mark - Start Request
 - (TTBaseRequest *)startRequest:(TTBaseRequest *)request {
-    TTLog(@"Start Request: %@", NSStringFromClass([request class]));
     
+    TTLog(@"Start Request: %@", NSStringFromClass([request class]));
+
     if (_manager.reachabilityManager.networkReachabilityStatus == TTRequestReachabilityStatusNotReachable) {
-        NSError *error = [NSError errorWithDomain:TTErrorDomain code:NSURLErrorNotConnectedToInternet userInfo:@{NSLocalizedFailureReasonErrorKey:kRequestNoInternet}];
+        NSError *error = [NSError errorWithDomain:TTErrorDomain code:TTURLErrorNotConnectedToInternet userInfo:@{NSLocalizedFailureReasonErrorKey:kRequestNoInternet}];
         request.response.error = error;
         [self requestDidFinishTag:request];
         return request;
@@ -159,7 +164,7 @@ NSString *const kRequestNoInternet = @"网络异常，请检查网络设置";
                     return request;
                 }
                 
-                NSString *filteredUrl = [TTNetworkPrivate urlStringWithOriginUrlString:url appendParameters:parameters];
+                NSString *filteredUrl = [TTNetworkUtil urlStringWithOriginUrlString:url appendParameters:parameters];
                 NSURLRequest *requestURL = [NSURLRequest requestWithURL:[NSURL URLWithString:filteredUrl]];
                 
                 task = [_manager downloadTaskWithRequest:requestURL progress:request.completionProgress ?: nil destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response) {
@@ -227,37 +232,40 @@ NSString *const kRequestNoInternet = @"网络异常，请检查网络设置";
 #pragma clang diagnostic pop
     request.response.task = task;
     [self addRequest:request];
-    return request;
+    return request;}
 
-}
-
-- (void)handleReponseResult:(id)task response:(id)responseObject error:(NSError *)error {
+- (void)handleReponseResult:(id)task response:(id)responseObject error:(NSError *)responseError {
     
     NSString *key = [self taskHashKey:task];
     TTBaseRequest *request = _requestsRecord[key];
-    if (error.code == NSURLErrorCancelled) {
-        [request clearComplition];
+    if (responseError.code == NSURLErrorCancelled) {
         [self requestDidFinishTag:request];
         [self removeRequest:task];
         return;
     }
+    
     if (request) {
+        
+        id filterJSONObject = responseObject;
+        NSError *error = responseError;
+        NSString *message = error.localizedDescription;
         if (self.responseProtocol) {
-            if ([self.responseProtocol respondsToSelector:@selector(prettyPrintedForJSONObject:request:)]) {
-                id prettyJSONObject = [self.responseProtocol prettyPrintedForJSONObject:responseObject request:request];
-                request.response.responseObject = prettyJSONObject;
+            if ([self.responseProtocol conformsToProtocol:@protocol(TTNetworkResponseProtocol)]) {
+                if ([self.responseProtocol respondsToSelector:@selector(filterJSONObjectWithResponse:error:message:)]) {
+                    filterJSONObject = [self.responseProtocol filterJSONObjectWithResponse:responseObject error:&error message:&message];
+                }
+                
+                if (error) {
+                    message = error.localizedFailureReason;
+                }
             }
-            
-            if ([self.responseProtocol respondsToSelector:@selector(prettyPrintedForError:request:)]) {
-                NSError *underlineError = [self.responseProtocol prettyPrintedForError:error request:request];
-                request.response.error = underlineError;
-                request.response.message = underlineError.localizedFailureReason;
-            }
-        } else {
-            request.response.responseObject = responseObject;
-            request.response.error = error;
         }
+        
+        request.response.responseObject = filterJSONObject;
+        request.response.error = error;
+        request.response.message = message;
     }
+
     [self requestDidFinishTag:request];
     [self removeRequest:task];
 }
@@ -368,5 +376,93 @@ NSString *const kRequestNoInternet = @"网络异常，请检查网络设置";
     }
 }
 
+@end
+
+
+@implementation TTNetworkUtil
+
++ (BOOL)checkJson:(id)json withValidator:(id)validatorJson {
+    if ([json isKindOfClass:[NSDictionary class]] &&
+        [validatorJson isKindOfClass:[NSDictionary class]]) {
+        NSDictionary * dict = json;
+        NSDictionary * validator = validatorJson;
+        BOOL result = YES;
+        NSEnumerator * enumerator = [validator keyEnumerator];
+        NSString * key;
+        while ((key = [enumerator nextObject]) != nil) {
+            id value = dict[key];
+            id format = validator[key];
+            if ([value isKindOfClass:[NSDictionary class]]
+                || [value isKindOfClass:[NSArray class]]) {
+                result = [self checkJson:value withValidator:format];
+                if (!result) {
+                    break;
+                }
+            } else {
+                if ([value isKindOfClass:format] == NO &&
+                    [value isKindOfClass:[NSNull class]] == NO) {
+                    result = NO;
+                    break;
+                }
+            }
+        }
+        return result;
+    } else if ([json isKindOfClass:[NSArray class]] &&
+               [validatorJson isKindOfClass:[NSArray class]]) {
+        NSArray * validatorArray = (NSArray *)validatorJson;
+        if (validatorArray.count > 0) {
+            NSArray * array = json;
+            NSDictionary * validator = validatorJson[0];
+            for (id item in array) {
+                BOOL result = [self checkJson:item withValidator:validator];
+                if (!result) {
+                    return NO;
+                }
+            }
+        }
+        return YES;
+    } else if ([json isKindOfClass:validatorJson]) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
++ (NSString *)urlParametersStringFromParameters:(NSDictionary *)parameters {
+    NSMutableString *urlParametersString = [[NSMutableString alloc] initWithString:@""];
+    if (parameters && parameters.count > 0) {
+        for (NSString *key in parameters) {
+            NSString *value = parameters[key];
+            value = [NSString stringWithFormat:@"%@",value];
+            value = [self urlEncode:value];
+            [urlParametersString appendFormat:@"&%@=%@", key, value];
+        }
+    }
+    return urlParametersString;
+}
+
++ (NSString *)urlStringWithOriginUrlString:(NSString *)originUrlString appendParameters:(NSDictionary *)parameters {
+    NSString *filteredUrl = originUrlString;
+    NSString *paraUrlString = [self urlParametersStringFromParameters:parameters];
+    if (paraUrlString && paraUrlString.length > 0) {
+        if ([originUrlString rangeOfString:@"?"].location != NSNotFound) {
+            filteredUrl = [filteredUrl stringByAppendingString:paraUrlString];
+        } else {
+            filteredUrl = [filteredUrl stringByAppendingFormat:@"?%@", [paraUrlString substringFromIndex:1]];
+        }
+        return filteredUrl;
+    } else {
+        return originUrlString;
+    }
+}
+
+
++ (NSString*)urlEncode:(NSString*)str {
+    //different library use slightly different escaped and unescaped set.
+    //below is copied from AFNetworking but still escaped [] as AF leave them for Rails array parameter which we don't use.
+    //https://github.com/AFNetworking/AFNetworking/pull/555
+    NSString *result = (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (__bridge CFStringRef)str, CFSTR("."), CFSTR(":/?#[]@!$&'()*+,;="), kCFStringEncodingUTF8);
+    return result;
+}
 
 @end

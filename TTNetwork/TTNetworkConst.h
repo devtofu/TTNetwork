@@ -15,12 +15,17 @@
 #define TTNetworkDeprecated(instead) __deprecated_msg(instead)
 
 #pragma mark - TTLog
-#ifdef DEBUG
-#define TTLog(format, ...) NSLog( @"😶 %@ 🙄",[NSString stringWithFormat: format, ##__VA_ARGS__])
+
+#if DEBUG
+#define TTLog(format, ...) do {                                             \
+                                fprintf(stderr, "<%s : line(%d)> %s\n",     \
+                                [[[NSString stringWithUTF8String:__FILE__] lastPathComponent] UTF8String],  \
+                                    __LINE__, __func__);                        \
+                                    printf("%s\n", [[NSString stringWithFormat:format, ##__VA_ARGS__] UTF8String]);           \
+                                    fprintf(stderr, "-------------------\n");   \
+                            } while (0)
 #else
-
-#define TTLog(format, ...)
-
+#define TTLog(format, ...) nil
 #endif
 
 #endif /* TTNetworkConst_h */

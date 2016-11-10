@@ -12,6 +12,7 @@
 NS_ASSUME_NONNULL_BEGIN
 @protocol TTNetworkResponseProtocol;
 
+
 @interface TTNetworkConfig : NSObject
 
 + (instancetype)sharedInstance;
@@ -21,21 +22,26 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  This property is used to configure the BaseUrl of the API , eg. http://api.ttnetwork.com
  */
-@property (nonatomic, strong) NSString *baseUrl;
+@property (nonatomic, strong, nullable) NSString *baseUrl;
 
 /**
  *  If you use SSL/TLS 1.2 ,need configure the securityPolicy
  *
  *  @return AFSecurityPolicy
  */
-- (nullable AFSecurityPolicy *)securityPolicy;
+
+@property (nonatomic, strong, nullable) AFSecurityPolicy *securityPolicy;
+
+/*
+- (NSDictionary *)responseJSONStruct;
+ */
 
 /**
- *  Custom json parser
+ *  Custom json filter
  *
  *  @return An overried `TTNetworkResponseProtocol` 's object
  */
-- (nullable id<TTNetworkResponseProtocol>)configureForJSONParser;
+@property (nonatomic, strong, nullable) id<TTNetworkResponseProtocol> configureForJSONFilter;
 
 @end
 

@@ -44,8 +44,8 @@
     if (fileUrl) {
         return fileUrl;
     }
-    NSString *filePath = [NSString stringWithFormat:@"%@/Library/appdata/chatbuffer/upload/",NSHomeDirectory()];
-    NSString *fileName = [NSString stringWithFormat:@"%@.amr", [[self requestUrl] md5Encrypt]];
+    NSString *filePath = [NSString stringWithFormat:@"%@/Library/appdata/download/",NSHomeDirectory()];
+    NSString *fileName = [NSString stringWithFormat:@"%@.%@", [[self requestUrl] md5Encrypt],[[self requestUrl] pathExtension]];
     NSString *recordPath = [NSString stringWithFormat:@"%@%@", filePath,fileName];
     
     fileUrl = recordPath;

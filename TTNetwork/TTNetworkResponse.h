@@ -22,6 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, strong) id       responseObject;
 @property (nullable, nonatomic, copy  ) NSString *message;
 @property (nullable, nonatomic, copy  ) NSError  *error;
+@property (nullable, nonatomic, copy  ) NSString *responseString;
 
 
 @end

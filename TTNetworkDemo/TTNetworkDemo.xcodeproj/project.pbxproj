@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		8690058EFF9CDCAF00CBF7D9 /* libPods-TTNetworkDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 434D90008713CE094E65CF20 /* libPods-TTNetworkDemo.a */; };
+		CC21EE441DD32BDD000DEC84 /* TTBaseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CC21EE391DD32BDD000DEC84 /* TTBaseRequest.m */; };
+		CC21EE451DD32BDD000DEC84 /* TTNetworkConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = CC21EE3C1DD32BDD000DEC84 /* TTNetworkConfig.m */; };
+		CC21EE461DD32BDD000DEC84 /* TTNetworkCustomJSONFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = CC21EE3E1DD32BDD000DEC84 /* TTNetworkCustomJSONFilter.m */; };
+		CC21EE471DD32BDD000DEC84 /* TTNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CC21EE401DD32BDD000DEC84 /* TTNetworkManager.m */; };
+		CC21EE481DD32BDD000DEC84 /* TTNetworkResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = CC21EE421DD32BDD000DEC84 /* TTNetworkResponse.m */; };
 		CC6654121C46173C00E06A27 /* TTDownloadRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CC66540D1C46173C00E06A27 /* TTDownloadRequest.m */; };
 		CC6654131C46173C00E06A27 /* TTLoginRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CC66540F1C46173C00E06A27 /* TTLoginRequest.m */; };
 		CC6654141C46173C00E06A27 /* TTUploadRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CC6654111C46173C00E06A27 /* TTUploadRequest.m */; };
@@ -19,11 +24,6 @@
 		CCDADCD91C3BF0D800E64638 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CCDADCD71C3BF0D800E64638 /* LaunchScreen.storyboard */; };
 		CCDADCE41C3BF0D800E64638 /* TTNetworkTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CCDADCE31C3BF0D800E64638 /* TTNetworkTests.m */; };
 		CCDADD2F1C3BF3B400E64638 /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = CCDADD2E1C3BF3B400E64638 /* NSString+MD5.m */; };
-		CCFE356F1CE2CE3400BE1F7E /* TTBaseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CCFE35641CE2CE3400BE1F7E /* TTBaseRequest.m */; };
-		CCFE35701CE2CE3400BE1F7E /* TTNetworkConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = CCFE35681CE2CE3400BE1F7E /* TTNetworkConfig.m */; };
-		CCFE35711CE2CE3400BE1F7E /* TTNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CCFE356A1CE2CE3400BE1F7E /* TTNetworkManager.m */; };
-		CCFE35731CE2CE3400BE1F7E /* TTNetworkResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = CCFE356E1CE2CE3400BE1F7E /* TTNetworkResponse.m */; };
-		CCFE357B1CE2E21C00BE1F7E /* TTNetworkPrivate.m in Sources */ = {isa = PBXBuildFile; fileRef = CCFE357A1CE2E21C00BE1F7E /* TTNetworkPrivate.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +40,20 @@
 		0225D1CA1792DD166BDB7AA1 /* Pods-TTNetworkDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TTNetworkDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TTNetworkDemo/Pods-TTNetworkDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		35A39EED00AD2D9F8F3B87E6 /* Pods-TTNetworkDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TTNetworkDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-TTNetworkDemo/Pods-TTNetworkDemo.release.xcconfig"; sourceTree = "<group>"; };
 		434D90008713CE094E65CF20 /* libPods-TTNetworkDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TTNetworkDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CC21EE361DD32BDD000DEC84 /* TTErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTErrors.h; sourceTree = "<group>"; };
+		CC21EE371DD32BDD000DEC84 /* TTNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNetwork.h; sourceTree = "<group>"; };
+		CC21EE381DD32BDD000DEC84 /* TTBaseRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTBaseRequest.h; sourceTree = "<group>"; };
+		CC21EE391DD32BDD000DEC84 /* TTBaseRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTBaseRequest.m; sourceTree = "<group>"; };
+		CC21EE3A1DD32BDD000DEC84 /* TTNetworkConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNetworkConst.h; sourceTree = "<group>"; };
+		CC21EE3B1DD32BDD000DEC84 /* TTNetworkConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNetworkConfig.h; sourceTree = "<group>"; };
+		CC21EE3C1DD32BDD000DEC84 /* TTNetworkConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTNetworkConfig.m; sourceTree = "<group>"; };
+		CC21EE3D1DD32BDD000DEC84 /* TTNetworkCustomJSONFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNetworkCustomJSONFilter.h; sourceTree = "<group>"; };
+		CC21EE3E1DD32BDD000DEC84 /* TTNetworkCustomJSONFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTNetworkCustomJSONFilter.m; sourceTree = "<group>"; };
+		CC21EE3F1DD32BDD000DEC84 /* TTNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNetworkManager.h; sourceTree = "<group>"; };
+		CC21EE401DD32BDD000DEC84 /* TTNetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTNetworkManager.m; sourceTree = "<group>"; };
+		CC21EE411DD32BDD000DEC84 /* TTNetworkResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNetworkResponse.h; sourceTree = "<group>"; };
+		CC21EE421DD32BDD000DEC84 /* TTNetworkResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTNetworkResponse.m; sourceTree = "<group>"; };
+		CC21EE431DD32BDD000DEC84 /* TTNetworkResponseProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNetworkResponseProtocol.h; sourceTree = "<group>"; };
 		CC66540C1C46173C00E06A27 /* TTDownloadRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTDownloadRequest.h; sourceTree = "<group>"; };
 		CC66540D1C46173C00E06A27 /* TTDownloadRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTDownloadRequest.m; sourceTree = "<group>"; };
 		CC66540E1C46173C00E06A27 /* TTLoginRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTLoginRequest.h; sourceTree = "<group>"; };
@@ -61,20 +75,6 @@
 		CCDADCE51C3BF0D800E64638 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CCDADD2D1C3BF3B400E64638 /* NSString+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MD5.h"; sourceTree = "<group>"; };
 		CCDADD2E1C3BF3B400E64638 /* NSString+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MD5.m"; sourceTree = "<group>"; };
-		CCFAF2971D1294CA005CC802 /* TTNetworkResponseProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNetworkResponseProtocol.h; sourceTree = "<group>"; };
-		CCFAF2981D12970A005CC802 /* TTErrorCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTErrorCode.h; sourceTree = "<group>"; };
-		CCFE35631CE2CE3400BE1F7E /* TTBaseRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTBaseRequest.h; sourceTree = "<group>"; };
-		CCFE35641CE2CE3400BE1F7E /* TTBaseRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTBaseRequest.m; sourceTree = "<group>"; };
-		CCFE35661CE2CE3400BE1F7E /* TTNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNetwork.h; sourceTree = "<group>"; };
-		CCFE35671CE2CE3400BE1F7E /* TTNetworkConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNetworkConfig.h; sourceTree = "<group>"; };
-		CCFE35681CE2CE3400BE1F7E /* TTNetworkConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTNetworkConfig.m; sourceTree = "<group>"; };
-		CCFE35691CE2CE3400BE1F7E /* TTNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNetworkManager.h; sourceTree = "<group>"; };
-		CCFE356A1CE2CE3400BE1F7E /* TTNetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTNetworkManager.m; sourceTree = "<group>"; };
-		CCFE356D1CE2CE3400BE1F7E /* TTNetworkResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNetworkResponse.h; sourceTree = "<group>"; };
-		CCFE356E1CE2CE3400BE1F7E /* TTNetworkResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTNetworkResponse.m; sourceTree = "<group>"; };
-		CCFE35741CE2D80500BE1F7E /* TTNetworkConst.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TTNetworkConst.h; sourceTree = "<group>"; };
-		CCFE35761CE2E1E800BE1F7E /* TTNetworkPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNetworkPrivate.h; sourceTree = "<group>"; };
-		CCFE357A1CE2E21C00BE1F7E /* TTNetworkPrivate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTNetworkPrivate.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,20 +129,20 @@
 		CC6653F41C46168F00E06A27 /* TTNetwork */ = {
 			isa = PBXGroup;
 			children = (
-				CCFE35661CE2CE3400BE1F7E /* TTNetwork.h */,
-				CCFAF2981D12970A005CC802 /* TTErrorCode.h */,
-				CCFE35631CE2CE3400BE1F7E /* TTBaseRequest.h */,
-				CCFE35641CE2CE3400BE1F7E /* TTBaseRequest.m */,
-				CCFE35741CE2D80500BE1F7E /* TTNetworkConst.h */,
-				CCFE35671CE2CE3400BE1F7E /* TTNetworkConfig.h */,
-				CCFE35681CE2CE3400BE1F7E /* TTNetworkConfig.m */,
-				CCFE35761CE2E1E800BE1F7E /* TTNetworkPrivate.h */,
-				CCFE357A1CE2E21C00BE1F7E /* TTNetworkPrivate.m */,
-				CCFE35691CE2CE3400BE1F7E /* TTNetworkManager.h */,
-				CCFE356A1CE2CE3400BE1F7E /* TTNetworkManager.m */,
-				CCFE356D1CE2CE3400BE1F7E /* TTNetworkResponse.h */,
-				CCFE356E1CE2CE3400BE1F7E /* TTNetworkResponse.m */,
-				CCFAF2971D1294CA005CC802 /* TTNetworkResponseProtocol.h */,
+				CC21EE361DD32BDD000DEC84 /* TTErrors.h */,
+				CC21EE371DD32BDD000DEC84 /* TTNetwork.h */,
+				CC21EE381DD32BDD000DEC84 /* TTBaseRequest.h */,
+				CC21EE391DD32BDD000DEC84 /* TTBaseRequest.m */,
+				CC21EE3A1DD32BDD000DEC84 /* TTNetworkConst.h */,
+				CC21EE3B1DD32BDD000DEC84 /* TTNetworkConfig.h */,
+				CC21EE3C1DD32BDD000DEC84 /* TTNetworkConfig.m */,
+				CC21EE3D1DD32BDD000DEC84 /* TTNetworkCustomJSONFilter.h */,
+				CC21EE3E1DD32BDD000DEC84 /* TTNetworkCustomJSONFilter.m */,
+				CC21EE3F1DD32BDD000DEC84 /* TTNetworkManager.h */,
+				CC21EE401DD32BDD000DEC84 /* TTNetworkManager.m */,
+				CC21EE411DD32BDD000DEC84 /* TTNetworkResponse.h */,
+				CC21EE421DD32BDD000DEC84 /* TTNetworkResponse.m */,
+				CC21EE431DD32BDD000DEC84 /* TTNetworkResponseProtocol.h */,
 				CC66540B1C46173C00E06A27 /* Requests */,
 			);
 			name = TTNetwork;
@@ -389,18 +389,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CC21EE461DD32BDD000DEC84 /* TTNetworkCustomJSONFilter.m in Sources */,
 				CC6654131C46173C00E06A27 /* TTLoginRequest.m in Sources */,
-				CCFE35731CE2CE3400BE1F7E /* TTNetworkResponse.m in Sources */,
 				CCDADCD11C3BF0D800E64638 /* ViewController.m in Sources */,
-				CCFE35711CE2CE3400BE1F7E /* TTNetworkManager.m in Sources */,
+				CC21EE471DD32BDD000DEC84 /* TTNetworkManager.m in Sources */,
 				CCDADD2F1C3BF3B400E64638 /* NSString+MD5.m in Sources */,
-				CCFE356F1CE2CE3400BE1F7E /* TTBaseRequest.m in Sources */,
 				CCDADCCE1C3BF0D800E64638 /* AppDelegate.m in Sources */,
+				CC21EE451DD32BDD000DEC84 /* TTNetworkConfig.m in Sources */,
 				CCDADCCB1C3BF0D800E64638 /* main.m in Sources */,
 				CC6654141C46173C00E06A27 /* TTUploadRequest.m in Sources */,
-				CCFE357B1CE2E21C00BE1F7E /* TTNetworkPrivate.m in Sources */,
-				CCFE35701CE2CE3400BE1F7E /* TTNetworkConfig.m in Sources */,
+				CC21EE441DD32BDD000DEC84 /* TTBaseRequest.m in Sources */,
 				CC6654121C46173C00E06A27 /* TTDownloadRequest.m in Sources */,
+				CC21EE481DD32BDD000DEC84 /* TTNetworkResponse.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

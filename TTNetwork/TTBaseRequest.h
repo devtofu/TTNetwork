@@ -70,6 +70,7 @@ typedef NS_ENUM(NSInteger, TTResponseSerializer) {
 // default is NO
 @property (nonatomic, assign, readonly) BOOL useCookies;
 
+@property (assign, nonatomic) BOOL needHeadKid;
 /**
   By default, this is set to an enum of `TTHTTPRequestSerializer`.
  */
@@ -95,7 +96,7 @@ typedef NS_ENUM(NSInteger, TTResponseSerializer) {
  
  By default, the property is set to nil.
  */
-@property (nonatomic, copy, nullable) void(^completionProgress)(NSProgress * _Nonnull progress);
+@property (nonatomic, copy, nullable) void(^completionProgress)(NSProgress *progress);
 
 /**
  Start request, The method must be called after `setCompletionBlockWithSuccess:failure`
@@ -123,7 +124,7 @@ typedef NS_ENUM(NSInteger, TTResponseSerializer) {
 /**
  Upload or download progress callback
  */
-- (void)setCompletionProgress:(nullable void(^)(NSProgress * _Nonnull progress))completionProgress;
+- (void)setCompletionProgress:(nullable void(^)(NSProgress *progress))completionProgress;
 
 
 /**
@@ -160,11 +161,6 @@ typedef NS_ENUM(NSInteger, TTResponseSerializer) {
  */
 - (void)clearComplition;
 
-/**
- unuse
- */
-- (void)requestCompliteSuccess __deprecated_msg("unuse in TTNetwork 2.x");
-- (void)requestCompliteFailure __deprecated_msg("unuse in TTNetwork 2.x");
 
 //--------------------------------------\\
 // base methods

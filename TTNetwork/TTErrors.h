@@ -1,13 +1,13 @@
 //
-//  TTErrorCode.h
-//  TTDemo
+//  QHErrors.h
+//  QiHaoBox
 //
 //  Created by tofu on 15/12/1.
-//  Copyright © 2015年 iOS Tofu. All rights reserved.
+//  Copyright © 2015年 QiHao. All rights reserved.
 //
 
-#ifndef TTErrorCode_h
-#define TTErrorCode_h
+#ifndef TTErrors_h
+#define TTErrors_h
 
 /**
  *  QiHao ErrorCode
@@ -128,7 +128,7 @@ typedef NS_OPTIONS(NSInteger, TTURLError) {
     TTURLErrorCannotConnectToHost   = NSURLErrorCannotConnectToHost,
     TTURLErrorNetworkConnectinoLost = NSURLErrorNetworkConnectionLost,
     TTURLErrorResourceUnavailable   = NSURLErrorResourceUnavailable,
-    TTURLErrorNoInternet            = NSURLErrorNotConnectedToInternet,
+    TTURLErrorNotConnectedToInternet            = NSURLErrorNotConnectedToInternet,
     /** This is equivalent to the “500 Server Error” message sent by HTTP servers.*/
     TTURLErrorBadServerResponse     = NSURLErrorBadServerResponse,
     /** Transport Security policy requires the use of a secure connection */

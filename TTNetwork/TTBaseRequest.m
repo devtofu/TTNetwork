@@ -34,6 +34,14 @@
     return self;
 }
 
+- (BOOL)needHeadField {
+    return YES;
+}
+
+- (BOOL)needHeadKid {
+    return YES;
+}
+
 - (BOOL)useCookies {
     return NO;
 }
@@ -61,9 +69,20 @@
 
 - (NSDictionary *)requestHeaderFieldValueDictionary {
     
-    NSMutableDictionary *requestHeader = [NSMutableDictionary dictionary];
-    requestHeader[@"client-type"] = @"mobile-iphone";
-    return requestHeader;
+//    NSMutableDictionary *requestHeader = [NSMutableDictionary dictionary];
+//    requestHeader[@"client-type"] = @"mobile-iphone";
+//    if (self.needHeadKid) {
+//        if ([QHUserManager sharedManager].currentKid != nil) {
+//            requestHeader[@"kidId"] = [[QHUserManager sharedManager].currentKid.kidId stringValue];
+//        }
+//    }
+//    
+//    if ([QHUserManager sharedManager].currentUser.authToken != nil) {
+//        requestHeader[@"userId"] = [[QHUserManager sharedManager].currentUser.userId stringValue];
+//        requestHeader[@"authToken"] = [QHUserManager sharedManager].currentUser.authToken;
+//    }
+//    return requestHeader;
+    return nil;
 }
 
 - (NSString *)resumeDownloadPath {
@@ -132,13 +151,8 @@
     }
 }
 
-
 - (void)setCompletionProgress:(void (^)(NSProgress * _Nonnull))completionProgress {
     _completionProgress = completionProgress;
-}
-
-- (void)setConstructionBodyBlock:(void (^)(id<AFMultipartFormData> _Nonnull))constructionBodyBlock {
-    _constructionBodyBlock = constructionBodyBlock;
 }
 
 - (void)startWithCompletionBlockWithSuccess:(void (^)(TTBaseRequest * _Nonnull))success failure:(void (^)(TTBaseRequest * _Nonnull))failure {
@@ -157,6 +171,7 @@
 - (void)clearComplition {
     self.requestSuccessHandler = nil;
     self.requestFailureHandler = nil;
+    self.constructionBodyBlock = nil;
     didReceiveUnintCount = 0;
 }
 

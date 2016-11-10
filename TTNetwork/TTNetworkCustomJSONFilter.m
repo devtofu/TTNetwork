@@ -6,64 +6,91 @@
 //  Copyright © 2015 iOS Tofu. All rights reserved.
 //
 
-#import "TTNetworkPrivate.h"
+#import "TTNetworkCustomJSONFilter.h"
+#import "TTNetworkManager.h"
 #import "TTBaseRequest.h"
-#import "TTErrorCode.h"
+#import "TTErrors.h"
+
 
 typedef NS_ENUM(NSInteger, TTResponseStatus) {
     TTResponseStatusFailure,
     TTResponseStatusSuccess
 };
 
-NSString *const TTErrorDomain      = @"com.tofu.network.error.domain";
-NSString *const TTCocoaErrorDomain = @"com.tofu.network.cocoaError.domain";
 NSString *const kResultKey         = @"result";
 NSString *const kSuccessKey        = @"success";
-NSString *const kMessageKey        = @"message";
-NSString *const kResponseCodeKey   = @"responseCode";
-NSString *const kResponseDataKey   = @"responseData";
+NSString *const kMessageKey        = @"msg";
+NSString *const kResponseCodeKey   = @"respCode";
+NSString *const kResponseDataKey   = @"data";
 
-@implementation TTNetworkPrivate
+@implementation TTNetworkCustomJSONFilter
 
-+ (NSString *)urlParametersStringFromParameters:(NSDictionary *)parameters {
-    NSMutableString *urlParametersString = [[NSMutableString alloc] initWithString:@""];
-    if (parameters && parameters.count > 0) {
-        for (NSString *key in parameters) {
-            NSString *value = parameters[key];
-            value = [NSString stringWithFormat:@"%@",value];
-            value = [self urlEncode:value];
-            [urlParametersString appendFormat:@"&%@=%@", key, value];
-        }
-    }
-    return urlParametersString;
-}
-
-+ (NSString *)urlStringWithOriginUrlString:(NSString *)originUrlString appendParameters:(NSDictionary *)parameters {
-    NSString *filteredUrl = originUrlString;
-    NSString *paraUrlString = [self urlParametersStringFromParameters:parameters];
-    if (paraUrlString && paraUrlString.length > 0) {
-        if ([originUrlString rangeOfString:@"?"].location != NSNotFound) {
-            filteredUrl = [filteredUrl stringByAppendingString:paraUrlString];
-        } else {
-            filteredUrl = [filteredUrl stringByAppendingFormat:@"?%@", [paraUrlString substringFromIndex:1]];
-        }
-        return filteredUrl;
-    } else {
-        return originUrlString;
-    }
-}
-
-
-+ (NSString*)urlEncode:(NSString*)str {
-    //different library use slightly different escaped and unescaped set.
-    //below is copied from AFNetworking but still escaped [] as AF leave them for Rails array parameter which we don't use.
-    //https://github.com/AFNetworking/AFNetworking/pull/555
-    NSString *result = (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (__bridge CFStringRef)str, CFSTR("."), CFSTR(":/?#[]@!$&'()*+,;="), kCFStringEncodingUTF8);
-    return result;
-}
 
 
 #pragma mark - Format Response
+- (id)filterJSONObjectWithResponse:(id)responseObject error:(NSError *__autoreleasing  _Nullable *)error message:(NSString *__autoreleasing  _Nullable *)message {
+    
+
+    if (*error) {
+        
+        NSError *localEror = *error;
+        NSError *underlyingError = localEror.userInfo[NSUnderlyingErrorKey];
+        if (underlyingError.userInfo) {
+            NSHTTPURLResponse *response = underlyingError.userInfo[AFNetworkingOperationFailingURLResponseErrorKey];
+            if (response) {
+                [self httpErrorcode:response.statusCode error:error];
+            } else {
+                NSInteger code = [underlyingError code];
+                [self urlErrorWithCode:code error:error];
+            }
+        } else {
+            [self urlErrorWithCode:localEror.code error:error];
+        }
+        
+        return responseObject;
+    }
+    
+    id filterJSONObject = responseObject;
+    
+    if ([filterJSONObject isKindOfClass:[NSDictionary class]]) {
+        
+        NSDictionary *result = (NSDictionary *)filterJSONObject[kResultKey];
+        
+        if (result == nil) {
+            return filterJSONObject;
+        }
+        
+        NSError *filterError = nil;
+        
+        NSNumber *code = result[kSuccessKey];
+        if (code.intValue == TTResponseStatusSuccess) {   //请求成功
+            id filterData = result[kResponseDataKey];
+            NSString *msg = result[kMessageKey];
+            *message = msg;
+            return filterData;
+        } else {
+            NSString *msg = result[kMessageKey];
+            id filterData = result[kResponseDataKey];
+            NSInteger errorCode = [result[kResponseCodeKey] integerValue];
+            if (errorCode == TTURLResponseStatusSystemError) {
+                filterError = [NSError errorWithDomain:TTCocoaErrorDomain code:errorCode userInfo:@{NSLocalizedFailureReasonErrorKey:@"服务器异常"}];
+            } else {
+                filterError = [NSError errorWithDomain:TTCocoaErrorDomain code:errorCode userInfo:@{NSLocalizedFailureReasonErrorKey:msg ?: @""}];
+            }
+            *error = filterError;
+            *message = msg;
+            return filterData;
+        }
+    } else {
+#if DEBUG
+        NSError *filterError = [NSError errorWithDomain:TTCocoaErrorDomain code:TTURLErrorJSONInvalid userInfo:@{NSLocalizedFailureReasonErrorKey:@"无效的 JSON 格式"}];
+        *error = filterError;
+        *message = filterError.localizedFailureReason;
+#endif
+        return filterJSONObject;
+    }
+
+}
 
 /**
  *  统一处理返回数据，保证最后取到的只包含需要的部份
@@ -73,16 +100,17 @@ NSString *const kResponseDataKey   = @"responseData";
  *
  *  @return 格式化后的 object
  */
-- (id)prettyPrintedForJSONObject:(id)responseObject request:(nonnull TTBaseRequest *)request {
+- (id)prettyPrintedForJSONObject:(id  _Nullable __autoreleasing *)responseObject request:(TTBaseRequest *)request {
     
-    if (!responseObject) {
+    if (!*responseObject) {
         request.response.responseObject = nil;
         return nil;
     }
+    id responseJSONObject = *responseObject;
     
-    if ([responseObject isKindOfClass:[NSDictionary class]]) {
-        
-        NSDictionary *result = (NSDictionary *)responseObject[kResultKey] ?: responseObject;
+    if ([responseJSONObject isKindOfClass:[NSDictionary class]]) {
+
+        NSDictionary *result = (NSDictionary *)responseJSONObject[kResultKey] ?: responseJSONObject;
         NSError      *error = nil;
         
         NSNumber *code = result[kSuccessKey];
@@ -92,8 +120,9 @@ NSString *const kResponseDataKey   = @"responseData";
             id resultData = result[kResponseDataKey];
             request.response.responseObject = resultData;
             request.response.message = msg;
+            *responseObject = resultData;
             return resultData;
-            
+
         } else {
             NSString *msg = result[kMessageKey];
             id resultData = result[kResponseDataKey];
@@ -119,6 +148,10 @@ NSString *const kResponseDataKey   = @"responseData";
 
 
 - (NSError *)prettyPrintedForError:(NSError *)error request:(TTBaseRequest *)request {
+    
+    if (request.error) {
+        return request.error;
+    }
     
     if (!error) {
         return nil;
@@ -157,7 +190,7 @@ NSString *const kResponseDataKey   = @"responseData";
             break;
         }
         case TTHTTPErrorNotFound: {
-            *finalError = [NSError errorWithDomain:TTErrorDomain code:TTHTTPErrorNotFound userInfo:@{NSLocalizedFailureReasonErrorKey:@"请求地址不存在"}];
+             *finalError = [NSError errorWithDomain:TTErrorDomain code:TTHTTPErrorNotFound userInfo:@{NSLocalizedFailureReasonErrorKey:@"请求地址不存在"}];
             break;
         }
         case TTHTTPErrorRequestTimeout: {
@@ -187,8 +220,8 @@ NSString *const kResponseDataKey   = @"responseData";
         case TTURLErrorNetworkConnectinoLost:
             *finalError = [NSError errorWithDomain:TTErrorDomain code:TTURLErrorNetworkConnectinoLost userInfo:@{NSLocalizedFailureReasonErrorKey:@"网络似乎有点问题"}];
             break;
-        case TTURLErrorNoInternet:
-            *finalError = [NSError errorWithDomain:TTErrorDomain code:TTURLErrorNoInternet userInfo:@{NSLocalizedFailureReasonErrorKey:@"网络断开连接"}];
+        case TTURLErrorNotConnectedToInternet:
+            *finalError = [NSError errorWithDomain:TTErrorDomain code:TTURLErrorNotConnectedToInternet userInfo:@{NSLocalizedFailureReasonErrorKey:@"网络断开连接"}];
             break;
 #ifdef DEBUG
         case TTURLErrorBadRequest:

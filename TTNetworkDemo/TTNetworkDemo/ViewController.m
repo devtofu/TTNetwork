@@ -11,6 +11,7 @@
 #import "TTDownloadRequest.h"
 #import "TTUploadRequest.h"
 #import "TTLoginRequest.h"
+#import "TTNetworkConst.h"
 
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
@@ -37,9 +38,9 @@
 - (void)loginRequest {
     TTLoginRequest *loginRequest = [[TTLoginRequest alloc] initWithUserName:@"tofu" password:@"tofu123"];
     [loginRequest startWithCompletionBlockWithSuccess:^(TTBaseRequest * _Nonnull request) {
-        TTLog(@"成功 :%@",request.responseObject);
+        NSLog(@"成功 :%@",request.responseObject);
     } failure:^(TTBaseRequest * _Nonnull request) {
-        TTLog(@"失败 :%@",request.error);
+        NSLog(@"失败 :%@",request.error);
     }];
 }
 
@@ -50,45 +51,51 @@
     [uploadRequest startWithConstructionBodyBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         [formData appendPartWithFileData:[NSData data] name:@"avatarFile" fileName:@"avatar.jpg" mimeType:@"image/png"];
     } success:^(TTBaseRequest * _Nonnull request) {
-        TTLog(@"成功 :%@",request.responseObject);
+        NSLog(@"成功 :%@",request.responseObject);
     } failure:^(TTBaseRequest * _Nonnull request) {
-        TTLog(@"失败 :%@",request.error);
+        NSLog(@"失败 :%@",request.error);
     }];
-    
+
     [uploadRequest setCompletionProgress:^(NSProgress * _Nonnull progress) {
-        TTLog(@"进度：%@",progress.localizedAdditionalDescription);
+        // 默认上传进度描述
+        NSLog(@"上传进度：%@ , %@",progress.localizedAdditionalDescription,progress.localizedDescription);
     }];
 }
 
 - (void)downloadRequest {
     // 下载
-    TTDownloadRequest *downloadRequest = [[TTDownloadRequest alloc] initWithURL:@"http://res.61read.com/resources/3/2014023/de810b9a165351cb0cebd44b9e4bcd47.mp3"];
+    TTDownloadRequest *downloadRequest = [[TTDownloadRequest alloc] initWithURL:@"http://cdn.exp.qq.com/img/install/QQforMac_5.0_beta.dmg"];
+    
+    
     
     [downloadRequest startWithCompletionBlockWithSuccess:^(TTBaseRequest * _Nonnull request) {
-         TTLog(@"request.success :%@, message: %@",request, request.message);
+         NSLog(@"request.success :%@, message: %@",request, request.message);
     } failure:^(TTBaseRequest * _Nonnull request) {
-        TTLog(@"request.error :%@",request.error);
+        NSLog(@"request.error :%@",request.error);
     }];
     
     [downloadRequest setCompletionProgress:^(NSProgress * _Nonnull progress) {
         // 默认下载进度描述
-        TTLog(@"%@ , %@",progress.localizedAdditionalDescription,progress.localizedDescription);
+        NSLog(@"下载进度：%@ , %@",progress.localizedAdditionalDescription,progress.localizedDescription);
         
         // 下载速度
         //        NSLog(@"下载速度 ：%.f kb/s",ceil([progress.userInfo[NSProgressThroughputKey] integerValue] / 1000));
+        
+        
+        
+        //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        //        [downloadRequest suspend];
+        //        NSLog(@"暂停下载");
+        //
+        //    });
+        //
+        //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        //        [downloadRequest resume];
+        //        NSLog(@"恢复下载");
+        //    });
+
     }];
     
-    
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [downloadRequest suspend];
-        NSLog(@"暂停下载");
-        
-    });
-    
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [downloadRequest resume];
-        NSLog(@"恢复下载");
-    });
 }
 
 
