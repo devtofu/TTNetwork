@@ -84,52 +84,18 @@ So, add a custom json parser, e.g:
 
 #import "TTNetworkResponseProtocol.h"
 
-@interface TTNetworkPrivate : NSObject<TTNetworkResponseProtocol>
+@interface TTNetworkCustomJSONFilter : NSObject<TTNetworkResponseProtocol>
 
 @end
 
-@implementation TTNetworkPrivate
+@implementation TTNetworkCustomJSONFilter
 
 // custom parser for responseObject
 
-- (id)prettyPrintedForJSONObject:(id)responseObject request:(nonnull TTBaseRequest *)request { 
-	if (!responseObject) {
-        request.response.responseObject = nil;
-        return nil;
-    }
-    
-    if ([responseObject isKindOfClass:[NSDictionary class]]) {
-    	BOOL sucess = [responseObject[@"status"] boolValue];
-    	if (sucess) {
-    		id result =  responseObject[@"responseData"];
-    		request.response.responseObject = result;
-    		request.response.message = responseObject[@"message"];
-    		return result;
-    	} else {
-    		NSError *error = ...
-    		request.response.error = error;
-    		request.response.message = responseObject[@"message"];
-    		return nil;
-    	}
-    }
-    
-    return responseObject;
+- (id)filterJSONObjectWithResponse:(id)responseObject error:(NSError *__autoreleasing  _Nullable *)error message:(NSString *__autoreleasing  _Nullable *)message { 
+
+	// Here to resolve the final data required, more details, please see Demo
 }
-
-// custom parser for error 
-
-- (NSError *)prettyPrintedForError:(NSError *)error request:(TTBaseRequest *)request {
-    
-    if (!error) {
-        return nil;
-    }
-    
-    // custom error parser
-    NSError *prettyPrintedError = ....
-    return prettyPrintedError;
-}
-
-@end
 
 
 // implement TTNetworkConfig's `configureForJSONParser` method
@@ -137,7 +103,7 @@ So, add a custom json parser, e.g:
 @implementation TTNetworkConfig
 
 - (id<TTNetworkResponseProtocol>)configureForJSONParser {
-    return [[TTNetworkPrivate alloc] init];
+    return [[TTNetworkCustomJSONFilter alloc] init];
 }
 
 @end
