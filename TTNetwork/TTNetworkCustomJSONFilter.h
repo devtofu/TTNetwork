@@ -20,11 +20,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 FOUNDATION_EXTERN NSString *const TT_HTTP_COOKIE_KEY;
 
-FOUNDATION_EXTERN NSString *const kResultKey;
-FOUNDATION_EXTERN NSString *const kSuccessKey;
-FOUNDATION_EXTERN NSString *const kMessageKey;
-FOUNDATION_EXTERN NSString *const kResponseCodeKey;
-FOUNDATION_EXTERN NSString *const kResponseDataKey;
 
 NS_ASSUME_NONNULL_END
 

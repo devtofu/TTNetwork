@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8690058EFF9CDCAF00CBF7D9 /* libPods-TTNetworkDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 434D90008713CE094E65CF20 /* libPods-TTNetworkDemo.a */; };
+		310A8BA94A0CD675A626FD19 /* Pods_TTNetworkDemoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5204566C94E60C5924DB629A /* Pods_TTNetworkDemoTests.framework */; };
 		CC21EE441DD32BDD000DEC84 /* TTBaseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CC21EE391DD32BDD000DEC84 /* TTBaseRequest.m */; };
 		CC21EE451DD32BDD000DEC84 /* TTNetworkConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = CC21EE3C1DD32BDD000DEC84 /* TTNetworkConfig.m */; };
 		CC21EE461DD32BDD000DEC84 /* TTNetworkCustomJSONFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = CC21EE3E1DD32BDD000DEC84 /* TTNetworkCustomJSONFilter.m */; };
@@ -24,6 +24,7 @@
 		CCDADCD91C3BF0D800E64638 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CCDADCD71C3BF0D800E64638 /* LaunchScreen.storyboard */; };
 		CCDADCE41C3BF0D800E64638 /* TTNetworkTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CCDADCE31C3BF0D800E64638 /* TTNetworkTests.m */; };
 		CCDADD2F1C3BF3B400E64638 /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = CCDADD2E1C3BF3B400E64638 /* NSString+MD5.m */; };
+		D9E8F3BEE34D421521963DDE /* Pods_TTNetworkDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F2315CC48363716D99A2176 /* Pods_TTNetworkDemo.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,9 +38,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0225D1CA1792DD166BDB7AA1 /* Pods-TTNetworkDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TTNetworkDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TTNetworkDemo/Pods-TTNetworkDemo.debug.xcconfig"; sourceTree = "<group>"; };
-		35A39EED00AD2D9F8F3B87E6 /* Pods-TTNetworkDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TTNetworkDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-TTNetworkDemo/Pods-TTNetworkDemo.release.xcconfig"; sourceTree = "<group>"; };
-		434D90008713CE094E65CF20 /* libPods-TTNetworkDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TTNetworkDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3F2315CC48363716D99A2176 /* Pods_TTNetworkDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TTNetworkDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5204566C94E60C5924DB629A /* Pods_TTNetworkDemoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TTNetworkDemoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		81FEC9735441B50B8F9D0A9A /* Pods-TTNetworkDemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TTNetworkDemoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TTNetworkDemoTests/Pods-TTNetworkDemoTests.release.xcconfig"; sourceTree = "<group>"; };
+		B481B5582D8339912421E40E /* Pods-TTNetworkDemoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TTNetworkDemoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TTNetworkDemoTests/Pods-TTNetworkDemoTests.debug.xcconfig"; sourceTree = "<group>"; };
+		C2210BBF3A542977DFAEAA3D /* Pods-TTNetworkDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TTNetworkDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-TTNetworkDemo/Pods-TTNetworkDemo.release.xcconfig"; sourceTree = "<group>"; };
 		CC21EE361DD32BDD000DEC84 /* TTErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTErrors.h; sourceTree = "<group>"; };
 		CC21EE371DD32BDD000DEC84 /* TTNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNetwork.h; sourceTree = "<group>"; };
 		CC21EE381DD32BDD000DEC84 /* TTBaseRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTBaseRequest.h; sourceTree = "<group>"; };
@@ -54,6 +57,7 @@
 		CC21EE411DD32BDD000DEC84 /* TTNetworkResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNetworkResponse.h; sourceTree = "<group>"; };
 		CC21EE421DD32BDD000DEC84 /* TTNetworkResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTNetworkResponse.m; sourceTree = "<group>"; };
 		CC21EE431DD32BDD000DEC84 /* TTNetworkResponseProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNetworkResponseProtocol.h; sourceTree = "<group>"; };
+		CC5A1F9A0EBA3F21AD19B3CE /* Pods-TTNetworkDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TTNetworkDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TTNetworkDemo/Pods-TTNetworkDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		CC66540C1C46173C00E06A27 /* TTDownloadRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTDownloadRequest.h; sourceTree = "<group>"; };
 		CC66540D1C46173C00E06A27 /* TTDownloadRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTDownloadRequest.m; sourceTree = "<group>"; };
 		CC66540E1C46173C00E06A27 /* TTLoginRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTLoginRequest.h; sourceTree = "<group>"; };
@@ -82,7 +86,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8690058EFF9CDCAF00CBF7D9 /* libPods-TTNetworkDemo.a in Frameworks */,
+				D9E8F3BEE34D421521963DDE /* Pods_TTNetworkDemo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,27 +94,31 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				310A8BA94A0CD675A626FD19 /* Pods_TTNetworkDemoTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5CD4FD8EEAF18EDC2F81CDFD /* Pods */ = {
+		1D8A252DE65FE770E73332E2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				0225D1CA1792DD166BDB7AA1 /* Pods-TTNetworkDemo.debug.xcconfig */,
-				35A39EED00AD2D9F8F3B87E6 /* Pods-TTNetworkDemo.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
-		64FC41F3A42A84E00BD36530 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				434D90008713CE094E65CF20 /* libPods-TTNetworkDemo.a */,
+				3F2315CC48363716D99A2176 /* Pods_TTNetworkDemo.framework */,
+				5204566C94E60C5924DB629A /* Pods_TTNetworkDemoTests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5813B0A66E6798ED68E4C09C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				CC5A1F9A0EBA3F21AD19B3CE /* Pods-TTNetworkDemo.debug.xcconfig */,
+				C2210BBF3A542977DFAEAA3D /* Pods-TTNetworkDemo.release.xcconfig */,
+				B481B5582D8339912421E40E /* Pods-TTNetworkDemoTests.debug.xcconfig */,
+				81FEC9735441B50B8F9D0A9A /* Pods-TTNetworkDemoTests.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 		CC4B6FE81C3CB48B004310C3 /* Classes */ = {
@@ -168,9 +176,9 @@
 			children = (
 				CCDADCC81C3BF0D800E64638 /* TTNetworkDemo */,
 				CCDADCE21C3BF0D800E64638 /* TTNetworkTests */,
-				64FC41F3A42A84E00BD36530 /* Frameworks */,
-				5CD4FD8EEAF18EDC2F81CDFD /* Pods */,
 				CCDADCC71C3BF0D800E64638 /* Products */,
+				5813B0A66E6798ED68E4C09C /* Pods */,
+				1D8A252DE65FE770E73332E2 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -245,12 +253,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CCDADCE81C3BF0D900E64638 /* Build configuration list for PBXNativeTarget "TTNetworkDemo" */;
 			buildPhases = (
-				A067379B0EC0AB6236EB8C04 /* Check Pods Manifest.lock */,
+				B1D9818D00FBB9C3B73083E4 /* [CP] Check Pods Manifest.lock */,
 				CCDADCC21C3BF0D800E64638 /* Sources */,
 				CCDADCC31C3BF0D800E64638 /* Frameworks */,
 				CCDADCC41C3BF0D800E64638 /* Resources */,
-				5682D5BBDE00DBCD922FE9C9 /* Embed Pods Frameworks */,
-				F4B2599048FF8193727DAABC /* Copy Pods Resources */,
+				F275D63E8DE5619FD89AD0E0 /* [CP] Embed Pods Frameworks */,
+				8DA9D131565AA3F3C2415495 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -265,9 +273,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CCDADCEB1C3BF0D900E64638 /* Build configuration list for PBXNativeTarget "TTNetworkDemoTests" */;
 			buildPhases = (
+				C1A5EB5D8ABAE987F239F806 /* [CP] Check Pods Manifest.lock */,
 				CCDADCDB1C3BF0D800E64638 /* Sources */,
 				CCDADCDC1C3BF0D800E64638 /* Frameworks */,
 				CCDADCDD1C3BF0D800E64638 /* Resources */,
+				209445F593BC161D463A65C0 /* [CP] Embed Pods Frameworks */,
+				D54031EF340771C316872827 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -337,29 +348,44 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		5682D5BBDE00DBCD922FE9C9 /* Embed Pods Frameworks */ = {
+		209445F593BC161D463A65C0 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TTNetworkDemo/Pods-TTNetworkDemo-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TTNetworkDemoTests/Pods-TTNetworkDemoTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A067379B0EC0AB6236EB8C04 /* Check Pods Manifest.lock */ = {
+		8DA9D131565AA3F3C2415495 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TTNetworkDemo/Pods-TTNetworkDemo-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B1D9818D00FBB9C3B73083E4 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -367,19 +393,49 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		F4B2599048FF8193727DAABC /* Copy Pods Resources */ = {
+		C1A5EB5D8ABAE987F239F806 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TTNetworkDemo/Pods-TTNetworkDemo-resources.sh\"\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		D54031EF340771C316872827 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TTNetworkDemoTests/Pods-TTNetworkDemoTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F275D63E8DE5619FD89AD0E0 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TTNetworkDemo/Pods-TTNetworkDemo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -526,7 +582,7 @@
 		};
 		CCDADCE91C3BF0D900E64638 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0225D1CA1792DD166BDB7AA1 /* Pods-TTNetworkDemo.debug.xcconfig */;
+			baseConfigurationReference = CC5A1F9A0EBA3F21AD19B3CE /* Pods-TTNetworkDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = TTNetworkDemo/Info.plist;
@@ -539,7 +595,7 @@
 		};
 		CCDADCEA1C3BF0D900E64638 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 35A39EED00AD2D9F8F3B87E6 /* Pods-TTNetworkDemo.release.xcconfig */;
+			baseConfigurationReference = C2210BBF3A542977DFAEAA3D /* Pods-TTNetworkDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = TTNetworkDemo/Info.plist;
@@ -552,6 +608,7 @@
 		};
 		CCDADCEC1C3BF0D900E64638 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B481B5582D8339912421E40E /* Pods-TTNetworkDemoTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = TTNetworkTests/Info.plist;
@@ -564,6 +621,7 @@
 		};
 		CCDADCED1C3BF0D900E64638 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 81FEC9735441B50B8F9D0A9A /* Pods-TTNetworkDemoTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = TTNetworkTests/Info.plist;
