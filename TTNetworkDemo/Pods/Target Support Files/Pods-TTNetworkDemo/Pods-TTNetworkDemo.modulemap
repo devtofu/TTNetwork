@@ -1,0 +1,6 @@
+framework module Pods_TTNetworkDemo {
+  umbrella header "Pods-TTNetworkDemo-umbrella.h"
+
+  export *
+  module * { export * }
+}
